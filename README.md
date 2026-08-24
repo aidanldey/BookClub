@@ -5,57 +5,123 @@ that make a page worth reading, a reusable research prompt, a structured output
 format, and the sourcing rules that keep reader quotes trustworthy.
 
 ```
+.claude/commands/
+  research-book.md      /research-book <slug> — the whole pipeline, one command
 research/
-  QUESTIONS.md          the question bank, grouped by page section
-  FAN_PAGE_PROMPT.md    the drop-in prompt — replace {{BOOK_TITLE}} and run
+  QUESTIONS.md          15 question groups, by page section
+  FAN_PAGE_PROMPT.md    the prompt — parameterized on title, with variants
   fan-page.schema.json  the JSON shape the research returns
   SOURCING.md           attribution, privacy, and quoting rules
+scripts/
+  validate_page.py      schema + link + editorial checks
 data/
-  books.json            the 50 books queued for pages, with per-book variants
+  books.json            the 50 books queued for pages
+  pages/<slug>.json     research output, one file per book
 ```
 
-## How to use it
+## The workflow
 
-1. Pick a book from `data/books.json`.
-2. Open `research/FAN_PAGE_PROMPT.md`, copy the block between the rulers, and
-   replace `{{BOOK_TITLE}}` / `{{AUTHOR}}`.
-3. Append any variant blocks listed in that book's `prompt_variants` field —
-   `translated`, `series`, `divisive`. They're at the bottom of the prompt file.
-4. Run it against a research agent with web search.
-5. Save the JSON to `data/pages/<slug>.json` and set the book's `status` to
-   `researched`.
+From a Claude Code session:
 
-## The short version
+```
+/research-book list              # see the queue and where each book stands
+/research-book east-of-eden      # research one book end to end
+/research-book dune quick pass   # extra words become prompt variants
+```
 
-If you just want something to paste into a chat window:
+The command resolves the slug, assembles the prompt with the right variants,
+runs the research, writes `data/pages/<slug>.json`, validates it, flips the
+book's `status` to `researched`, and commits. It reports what it found and what
+a human should check.
 
-> Research **{{BOOK_TITLE}}** by **{{AUTHOR}}** for a book club fan page. Search
-> r/books, r/suggestmeabook, r/TrueLit, the book's own subreddit, Goodreads, and
-> StoryGraph — at least 15 threads. Tell me: (1) the single reason readers most
-> often give for loving it, (2) what they say it did to them emotionally and
-> when in life it lands hardest, (3) the craft element they praise and the
-> *specific* thing about it, (4) the 3–6 most-named favorite characters and the
-> exact reason each is loved, plus the one that divides readers, (5) the 5–10
-> most-quoted lines with context and spoiler flags, (6) 6–12 short real reader
-> comments with username, platform, date, and permalink — including one critical
-> take, one convert-from-skeptic, and one about the reading experience, (7) the
-> argument the fandom keeps having, steelmanned both ways, (8) who bounces off
-> it, content warnings, and the audiobook verdict, (9) 4–6 read-next pairings
-> with reasons. Label each finding `near-universal` / `common` / `minority` /
-> `singular`. **Never invent a reader quote** — if you can't link it, drop it,
-> and tell me what you couldn't find.
+Then, per book:
+
+```
+researched → [human review] → drafted → [render] → published
+```
+
+Track that in the `status` field of `data/books.json`. It's what makes a
+50-book queue resumable across sessions.
+
+**Start with three books by hand before batching.** Pick one easy
+(`project-hail-mary`), one translated (`crime-and-punishment`), one divisive
+(`a-little-life`), and read the JSON critically. The prompt will need tuning —
+most likely the consensus labels get applied too loosely and
+`craft.standout_detail` comes back adjectival despite the instruction. Fix the
+prompt before running it 47 more times.
+
+## The gate: verify every permalink
+
+The dominant failure mode of this pipeline is a plausible-looking permalink that
+404s, or resolves to a real thread that doesn't contain the quoted text. A page
+full of dead links is worse than a page with no reader voices at all.
+
+```bash
+python3 scripts/validate_page.py data/pages/<slug>.json --check-links
+```
+
+Three buckets, meaning different things:
+
+- **DEAD** (404/410, no such host) — almost always a fabricated permalink. Remove
+  the entry that carries it. Don't swap in a different link for the same quote:
+  a dead permalink usually means the quote isn't real either.
+- **UNVERIFIED** (403/429/timeout) — Reddit and Goodreads block automated
+  requests, so this is usually the checker being blocked. Spot-check by hand.
+- **OK** — 200.
+
+The script also runs editorial checks the schema can't express: too few reader
+voices, no critical voice, over-long quotes, an empty `gaps` array across 15
+sections. Those are warnings, not failures — judgment calls for the editor.
+
+`jsonschema` is used if installed; otherwise a built-in fallback covers required
+fields, unknown fields, types, and enums. No dependencies required.
+
+## What to look for in review
+
+- Does `craft.standout_detail` name something specific, or is it "beautiful
+  prose" with extra words?
+- Is there a genuine critical voice in `reader_voices`, or a hedged compliment?
+- Are `debates.side_a` / `side_b` both steelmanned, or is one a strawman?
+- Does `research_notes.gaps` say anything? Zero gaps across 15 sections means
+  fields got filled that shouldn't have been.
+- Do `strongest_sections` match what you see when you read the file?
+
+## Page sections
+
+15 groups; a typical page renders 10–13 of them. Researching all 15 and cutting
+is the point — the surplus is what lets each page lead with whatever that book is
+actually best at. *Dune* leads with setting, *Stoner* with reception history,
+*Catch-22* with craft. You can only make that call with the full set in hand.
+
+| Section | Field | Tier |
+|---|---|---|
+| Header + at-a-glance | `book` | always |
+| Why readers love it | `resonance` | always |
+| What readers point to | `craft` | always |
+| Reader favorites | `characters` | always |
+| Lines readers keep | `book_quotes` | always |
+| From the club | `reader_voices` | always |
+| The place | `setting` | cherry-pick |
+| What you've heard vs. what it is | `misconceptions` | cherry-pick |
+| Contested | `debates` | always |
+| The book's life | `reception` | cherry-pick |
+| About the author | `author` | cherry-pick |
+| The fandom | `fandom` | cherry-pick |
+| Before you start | `before_you_start` | always |
+| Run it in your club | `club_kit` | always |
+| If you loved this | `if_you_loved_this` | always |
+
+`research_notes` doesn't render — it's the editor's audit trail.
 
 ## What makes these pages good
-
-Four things, in order:
 
 **Specificity.** "Beautiful prose" is a non-finding. "Readers quote the same
 three sentences about the Salinas Valley, and half of them mention reading it
 aloud" is a page.
 
-**Real readers.** The `reader_voices` section is the difference between a fan
-page and a Wikipedia stub. Every quote is a real, linkable comment — see
-`SOURCING.md`, which is not optional.
+**Real readers.** `reader_voices` is the difference between a fan page and a
+Wikipedia stub. Every quote is a real, linkable comment — see `SOURCING.md`,
+which is not optional.
 
 **Disagreement.** A page where everyone loves everything reads like marketing.
 The critical voice, the divisive character, and the live "overrated" argument
@@ -63,20 +129,16 @@ are load-bearing.
 
 **Honest gaps.** Empty fields are fine. Invented ones poison the whole site.
 
-## Page sections
+## Refresh
 
-Each question group in `QUESTIONS.md` maps to one section of the page:
+Re-run a page yearly, or whenever an adaptation lands — a new series shifts a
+fandom's conversation within weeks, and a page quoting only pre-adaptation
+threads goes stale fast. `research_notes.researched_at` drives that.
 
-| Section | Source |
-|---|---|
-| Header + at-a-glance | `book` |
-| Why readers love it | `resonance` |
-| What readers point to | `craft` |
-| Reader favorites | `characters` |
-| Lines readers keep | `book_quotes` |
-| From the club | `reader_voices` |
-| Contested | `debates` |
-| Before you start | `before_you_start` |
-| If you loved this | `if_you_loved_this` |
+## Running the research elsewhere
 
-`research_notes` doesn't render — it's the editor's audit trail.
+If you're not in a Claude Code session, copy the block between the rulers in
+`research/FAN_PAGE_PROMPT.md`, substitute the title and author, append the
+variants named in the book's `prompt_variants`, and paste it into any assistant
+with web search. Save the JSON to `data/pages/<slug>.json` and run the validator
+yourself.

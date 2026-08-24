@@ -4,7 +4,10 @@ Drop-in prompt for a research agent with web search. Replace `{{BOOK_TITLE}}`
 (and `{{AUTHOR}}` if the title is ambiguous) and run. Output is JSON matching
 `fan-page.schema.json`, ready to populate a fan page template.
 
-Copy everything between the rulers.
+In a Claude Code session, don't assemble this by hand — run
+`/research-book <slug>`, which builds the prompt from `data/books.json`,
+appends the right variants, validates the output, and files it. Copy the block
+between the rulers only when running the research somewhere else.
 
 ---
 
@@ -50,6 +53,13 @@ Useful search patterns — run several, vary them:
 - `"{{BOOK_TITLE}}" best translation` (translated works)
 - `"{{BOOK_TITLE}}" audiobook narrator recommend`
 - `"{{BOOK_TITLE}}" "if you liked" recommendations`
+- `"{{BOOK_TITLE}}" reddit "I thought it was going to be"` (misconceptions)
+- `"{{BOOK_TITLE}}" "had to read it in school" reread`
+- `"{{BOOK_TITLE}}" banned OR challenged`
+- `"{{BOOK_TITLE}}" tattoo OR "fan art" OR playlist`
+- `"{{BOOK_TITLE}}" book club discussion questions`
+- `"{{BOOK_TITLE}}" annual reread OR "read it every year"`
+- `"{{AUTHOR}}" interview "{{BOOK_TITLE}}"`
 
 Bias toward threads with high engagement and toward recent conversation (last
 5 years) while including at least a couple of older, canonical threads. A single
@@ -57,9 +67,22 @@ viral comment is not consensus.
 
 ## Step 3 — Answer the question bank
 
-Work through every **[core]** question in `QUESTIONS.md`, and any **[color]**
-question the research actually answers. For each finding, track how common the
-view is, using exactly one of these labels:
+`QUESTIONS.md` holds 15 question groups. Ten are tagged **[always]** — identity,
+resonance, craft, characters, quotes, reader voices, debates, before you start,
+club kit, and onward. Five are tagged **[cherry-pick]** — setting,
+misconceptions, reception, the author, and fandom. Research those five too, but
+expect them to come back rich for some books and thin for others. *Frankenstein*
+has three centuries of reception history; *Project Hail Mary* has four years of
+it.
+
+Research all 15. A published page renders 10–13 of them, and the editor picks
+which — that decision can only be made with the full set in hand. **Do not pad a
+thin group to make it look filled.** An empty group is a finding; record it in
+`research_notes.gaps`.
+
+Work through every **[core]** question in a group you're filling, and any
+**[color]** question the research actually answers. For each finding, track how
+common the view is, using exactly one of these labels:
 
 - `near-universal` — shows up in most threads about the book
 - `common` — recurs across multiple independent threads
@@ -101,6 +124,12 @@ writing something no source supports, cut it.
 Return a single JSON object matching `fan-page.schema.json`. No prose before or
 after it. Populate every field you have real evidence for; leave the rest empty.
 
+Before you finish, fill `research_notes.strongest_sections` with the 3–4
+sections that came back richest for this book, best first. You just read the
+threads — your ranking is what the editor cherry-picks from, and it decides
+which section the page leads with. Rank by how much real material you found,
+not by how important the section sounds.
+
 Then, after the JSON, add a short `RESEARCH LOG` in plain text listing: the
 sources you used (title + URL), roughly how many reader comments you read, which
 core questions you couldn't answer, and anything the page editor should verify
@@ -113,12 +142,12 @@ before publishing.
 Append one of these to the prompt when you need it.
 
 **Quick pass** (for filling a thin page fast):
-> Limit to 6 sources and the `[core]` questions only. Target 6 reader voices and
-> 5 book quotes.
+> Limit to 6 sources and the `[always]` groups only — skip the cherry-pick
+> groups entirely. Target 6 reader voices and 5 book quotes.
 
 **Deep pass** (for a flagship page):
-> Use at least 30 sources. Include every `[color]` question the research
-> supports. Target 12–15 reader voices spanning at least three platforms and a
+> Use at least 30 sources. Cover all 15 groups and every `[color]` question the
+> research supports. Target 12–15 reader voices spanning at least three platforms and a
 > five-year date range, and include the book's reception history — how its
 > reputation among readers has shifted over time.
 

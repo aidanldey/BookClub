@@ -1,5 +1,5 @@
 {
-  "description": "Books queued for fan pages. `prompt_variants` names the variant blocks in research/FAN_PAGE_PROMPT.md to append when researching this title. `status` tracks the pipeline: not-researched -> researched -> drafted -> published.",
+  "description": "Books queued for fan pages. Research one with `/research-book <slug>`. `prompt_variants` names the variant blocks in research/FAN_PAGE_PROMPT.md the command appends for this title. `status` tracks the pipeline: not-researched -> researched -> drafted -> published.",
   "count": 50,
   "books": [
     {

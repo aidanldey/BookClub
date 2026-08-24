@@ -3,16 +3,36 @@
 The master list of questions that drive every book fan page. Each group maps to
 one section of the page template, so answers drop straight into the layout.
 
-Questions marked **[core]** must be answered for every book — a page can't ship
-without them. Questions marked **[color]** are optional depth: use them when the
-research turns up something good, skip them when it doesn't. Don't pad a page
-with thin answers to hit a section count.
+## How to use the tiers
+
+Groups are tagged at the group level:
+
+- **[always]** — research these for every book, every time. Six of them; they
+  are the page.
+- **[cherry-pick]** — research these too, but expect them to come back rich for
+  some books and thin for others. *Frankenstein* has three centuries of
+  reception history; *Project Hail Mary* has four years of it. Fill what's
+  really there and let the editor choose which sections make the final page.
+
+Within a group, questions are tagged **[core]** (answer it if the group is being
+filled at all) and **[color]** (optional depth — use when the research turns up
+something good, skip when it doesn't).
+
+Ten of the 15 groups are [always]; five are [cherry-pick]. A typical
+published page renders 10–13 of them. Researching all 15 and
+cutting is the point: the surplus is what lets each page lead with whatever that
+particular book is actually best at. A page for *Dune* should lead with setting;
+a page for *Stoner* should lead with reception history; a page for *Catch-22*
+should lead with craft. You can only make that call with all 15 in hand.
+
+Don't pad. An empty group is a finding — record it in
+`research_notes.gaps` and move on.
 
 ---
 
-## 1. Identity — "what is this book?"
+## 1. Identity — "what is this book?" **[always]**
 
-Section: page header + at-a-glance card.
+Section: page header + at-a-glance card. → `book`
 
 - **[core]** Title, author, first publication year, original language.
 - **[core]** How would a reader who loves this book describe it in one sentence,
@@ -29,9 +49,9 @@ Section: page header + at-a-glance card.
 - **[color]** Notable editions readers seek out (illustrated, annotated,
   anniversary, specific cover art).
 
-## 2. Resonance — "why does this book stick with people?"
+## 2. Resonance — "why does this book stick with people?" **[always]**
 
-Section: "Why readers love it" — the emotional heart of the page.
+Section: "Why readers love it" — the emotional heart of the page. → `resonance`
 
 - **[core]** What is the single most common reason readers give for loving this
   book? Look for the reason that repeats across dozens of threads, not the
@@ -52,9 +72,9 @@ Section: "Why readers love it" — the emotional heart of the page.
 - **[color]** What does this book get compared to — "if you loved X, read this"
   and "this is the only book that ever made me feel like X did."
 
-## 3. Craft — "what do readers admire about how it's made?"
+## 3. Craft — "what do readers admire about how it's made?" **[always]**
 
-Section: "What readers point to."
+Section: "What readers point to." → `craft`
 
 - **[core]** What craft element do readers praise most: prose, structure,
   characters, worldbuilding, plot, humor, ideas, ending?
@@ -69,9 +89,10 @@ Section: "What readers point to."
 - **[color]** Does the book have a "difficulty curve" readers warn about — a
   slow first N pages, a hard middle, a section people bounce off?
 
-## 4. Characters — "who do readers love?"
+## 4. Characters — "who do readers love?" **[always]**
 
 Section: "Reader favorites" — character cards, ideally with a fan-vote widget.
+→ `characters`
 
 - **[core]** Which 3–6 characters get named most often as favorites? Rank them
   by how often they come up, not by page time.
@@ -85,9 +106,9 @@ Section: "Reader favorites" — character cards, ideally with a fan-vote widget.
 - **[color]** Best-loved relationship or dynamic (not necessarily romantic).
 - **[color]** Which character does the fandom's opinion of shift on re-read?
 
-## 5. Quotes — "what lines do readers carry around?"
+## 5. Quotes — "what lines do readers carry around?" **[always]**
 
-Section: "Lines readers keep" — pull-quote blocks.
+Section: "Lines readers keep" — pull-quote blocks. → `book_quotes`
 
 - **[core]** The 5–10 lines from the book most often quoted by readers, in order
   of how often they appear.
@@ -104,10 +125,11 @@ Section: "Lines readers keep" — pull-quote blocks.
 > or two, never a full paragraph or poem. Public-domain books (pre-1930 in the
 > US, roughly) can take longer excerpts. See `SOURCING.md`.
 
-## 6. Reader voices — "what do actual readers say?"
+## 6. Reader voices — "what do actual readers say?" **[always]**
 
 Section: "From the club" — attributed reader testimonial cards. This is the
 section that makes the page feel like a community instead of a wiki.
+→ `reader_voices`
 
 - **[core]** 6–12 short reader comments (1–3 sentences each) that show the range
   of why people love the book. Each needs a username, source community, date,
@@ -122,9 +144,47 @@ section that makes the page feel like a community instead of a wiki.
 - **[color]** A comment from a re-reader comparing passes.
 - **[color]** A comment recommending a specific translation/edition/audiobook.
 
-## 7. Debates — "what does the fandom argue about?"
+## 7. Setting — "what world do readers want to live in?" **[cherry-pick]**
+
+Section: "The place" — the atmosphere block, and the section that most drives
+page art direction. Strong for *Dune*, *Shadow of the Wind*, *Lonesome Dove*,
+*East of Eden*, *Hyperion*; thin for books whose setting is incidental.
+→ `setting`
+
+- **[core]** What place does this book put readers in, and how do they describe
+  the feeling of being there?
+- **[core]** Do readers talk about the setting as a character? What do they say
+  about it?
+- **[color]** What's the sensory signature readers name — weather, light, smell,
+  sound, food, season?
+- **[color]** When and where do readers say to read this? ("Winter book." "Read
+  it somewhere hot." "Do not read this on a plane.")
+- **[color]** Are there real places readers visit because of this book, or maps
+  and location guides the fandom maintains?
+- **[color]** Which setting detail do readers most often say they still think
+  about years later?
+
+## 8. Misconceptions — "what keeps people from reading it?" **[cherry-pick]**
+
+Section: "What you've heard vs. what it is" — the conversion block. Strongest
+for books with an intimidating reputation: *Moby-Dick*, *Infinite Jest*,
+*Ulysses*-adjacent difficulty, *Blood Meridian*, anything assigned in school.
+→ `misconceptions`
+
+- **[core]** What do people wrongly believe about this book before reading it?
+- **[core]** For each belief: what's the reality readers report?
+- **[core]** Which misconception is actively costing the book readers?
+- **[color]** Is the book's difficulty overstated or understated by its
+  reputation? What's actually hard about it, in readers' words?
+- **[color]** What do readers who had to read it in school say about re-reading
+  it as an adult?
+- **[color]** Is there a common wrong reason people pick it up — an expectation
+  the book doesn't meet, that a better-matched reader wouldn't have had?
+
+## 9. Debates — "what does the fandom argue about?" **[always]**
 
 Section: "Contested" — a discussion prompt block that seeds club conversation.
+→ `debates`
 
 - **[core]** What's the single most recurring argument about this book?
 - **[core]** What's the strongest case each side makes? Steelman both.
@@ -135,9 +195,59 @@ Section: "Contested" — a discussion prompt block that seeds club conversation.
 - **[color]** What do first-time readers commonly misread?
 - **[color]** Does the fandom disagree about the ending?
 
-## 8. Practical — "should I read it, and how?"
+## 10. Reception — "how did this book get here?" **[cherry-pick]**
 
-Section: "Before you start" — the sidebar.
+Section: "The book's life" — a timeline strip. The whole page for *Stoner*,
+whose revival *is* the story; rich for banned books (*1984*, *Fahrenheit 451*,
+*To Kill a Mockingbird*); thin for recent releases. → `reception`
+
+- **[core]** How was it received when it came out, and how does that compare to
+  its standing now?
+- **[core]** Has its reputation risen, fallen, or been rediscovered? What caused
+  the shift — an adaptation, a critic, a celebrity, a subreddit, a TikTok?
+- **[color]** Major awards, and whether readers think it deserved them.
+- **[color]** Has it been banned or challenged? Where, when, and on what stated
+  grounds?
+- **[color]** Is there a generational split in how it's read — do readers under
+  30 and over 50 describe a different book?
+- **[color]** Did it have a sales or cultural moment worth noting?
+
+## 11. The author — "what should I know about who wrote this?" **[cherry-pick]**
+
+Section: "About the author" — sidebar. Load-bearing where biography changes the
+reading (*Man's Search for Meaning*, *Educated*, *Slaughterhouse-Five*) or where
+readers have a live tension about the author. → `author`
+
+- **[core]** What about the author's life do readers say changes how the book
+  reads?
+- **[core]** Where does this book sit in their body of work — is it the one to
+  start with, the outlier, the late masterpiece?
+- **[color]** What has the author said about this book that readers quote back?
+- **[color]** Is there a live separate-the-art-from-the-artist tension in the
+  fandom? State it plainly, represent both positions, don't adjudicate.
+- **[color]** Is the author's next/unfinished work part of the conversation?
+  (*Doors of Stone*, *Winds of Winter* — the waiting is part of the fandom.)
+- **[color]** What do readers recommend reading *about* the author?
+
+## 12. Fandom — "what has this book's community built?" **[cherry-pick]**
+
+Section: "The fandom" — the community block, and the best source of things the
+club can actually do. → `fandom`
+
+- **[core]** Where does this book's community live — subreddits, Discords,
+  forums, annual threads? Include links.
+- **[core]** Do readers have rituals around it — annual re-reads, seasonal
+  reads, reading it before a life event, reading it aloud to someone?
+- **[color]** What do fans make? Tattoos, art, maps, playlists, editions,
+  bookshelf staples, cosplay.
+- **[color]** What are the running jokes and shorthand a newcomer wouldn't get?
+- **[color]** Are there pilgrimages — places fans go, events they attend?
+- **[color]** What's the fandom's relationship to adaptations: protective,
+  welcoming, split?
+
+## 13. Before you start — "should I read it, and how?" **[always]**
+
+Section: sidebar. → `before_you_start`
 
 - **[core]** Who is this book *for*? Who reliably bounces off it?
 - **[core]** Content warnings, stated plainly and without judgment.
@@ -151,9 +261,28 @@ Section: "Before you start" — the sidebar.
 - **[color]** For series/long books: where's the commitment point — the page at
   which readers say "if it hasn't got you by here, it won't."
 
-## 9. Onward — "what do I read next?"
+## 14. Club kit — "how do we actually discuss this?" **[always]**
 
-Section: "If you loved this."
+Section: "Run it in your club" — the download block. This is a book *club*, so
+this section earns its always-tag even when it takes work to fill.
+→ `club_kit`
+
+- **[core]** 5–8 discussion questions that produce disagreement rather than
+  summary. Prefer questions the fandom is already arguing about — group 9 is
+  your best source.
+- **[core]** How should a club split this book across sessions? Name the natural
+  break points.
+- **[core]** Which passage should be read aloud to open a session?
+- **[color]** What's the question that reliably splits a room?
+- **[color]** A pairing for the meeting — food, drink, music, a short film — that
+  fans actually associate with the book, not one you invented.
+- **[color]** What should a facilitator watch out for? (A content warning worth
+  flagging in advance, a spoiler that ruins a first-timer's session, a debate
+  that eats the whole hour.)
+
+## 15. Onward — "what do I read next?" **[always]**
+
+Section: "If you loved this." → `if_you_loved_this`
 
 - **[core]** 4–6 books readers most often recommend to people who loved this one,
   each with the one-line reason for the pairing.
@@ -176,3 +305,7 @@ Section: "If you loved this."
    can hide it behind a reveal.
 5. **Report absence.** If a question has no real answer for this book, say
    "no consensus found" rather than manufacturing one.
+6. **Rank your own output.** Finish by naming the 3–4 groups that came back
+   strongest for this book, in `research_notes.strongest_sections`. That
+   ranking is what the editor cherry-picks from, and you're the one who just
+   read the threads.

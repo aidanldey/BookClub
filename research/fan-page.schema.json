@@ -2,68 +2,145 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://bookclub.example/schemas/fan-page.schema.json",
   "title": "Book Fan Page Research Output",
-  "description": "Structured research output for one book fan page. Every field is optional except `book` and `research_notes` — an honestly empty field beats an invented one.",
+  "description": "Structured research output for one book fan page. 15 sections, of which a typical page renders 10-13 - research all of them and let the editor cherry-pick. Every field is optional except `book` and `research_notes`: an honestly empty field beats an invented one.",
   "type": "object",
-  "required": ["book", "research_notes"],
+  "required": [
+    "book",
+    "research_notes"
+  ],
   "additionalProperties": false,
   "properties": {
     "book": {
       "type": "object",
-      "required": ["title", "author", "year_published", "one_line_pitch"],
+      "required": [
+        "title",
+        "author",
+        "year_published",
+        "one_line_pitch"
+      ],
       "additionalProperties": false,
       "properties": {
-        "title": { "type": "string" },
-        "author": { "type": "string" },
-        "year_published": { "type": "integer" },
-        "original_language": { "type": "string" },
-        "page_count": { "type": "integer" },
-        "reading_time_note": { "type": "string", "description": "How readers describe the pace, e.g. 'a fast 400 pages' or 'slow first 150, then unputdownable'." },
-        "shelf": { "type": "string", "description": "Genre as filed." },
-        "shelf_actual": { "type": "string", "description": "Genre as readers actually experience it, if different." },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "year_published": {
+          "type": "integer"
+        },
+        "original_language": {
+          "type": "string"
+        },
+        "page_count": {
+          "type": "integer"
+        },
+        "reading_time_note": {
+          "type": "string",
+          "description": "How readers describe the pace, e.g. 'a fast 400 pages' or 'slow first 150, then unputdownable'."
+        },
+        "shelf": {
+          "type": "string",
+          "description": "Genre as filed."
+        },
+        "shelf_actual": {
+          "type": "string",
+          "description": "Genre as readers actually experience it, if different."
+        },
         "series": {
-          "type": ["object", "null"],
+          "type": [
+            "object",
+            "null"
+          ],
           "additionalProperties": false,
           "properties": {
-            "name": { "type": "string" },
-            "position": { "type": "integer" },
-            "complete": { "type": "boolean" },
-            "reading_order_note": { "type": "string" }
+            "name": {
+              "type": "string"
+            },
+            "position": {
+              "type": "integer"
+            },
+            "complete": {
+              "type": "boolean"
+            },
+            "reading_order_note": {
+              "type": "string"
+            }
           }
         },
-        "one_line_pitch": { "type": "string", "description": "Spoiler-free, in the voice of someone who loves it." },
+        "one_line_pitch": {
+          "type": "string",
+          "description": "Spoiler-free, in the voice of someone who loves it."
+        },
         "translations": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["translator"],
+            "required": [
+              "translator"
+            ],
             "additionalProperties": false,
             "properties": {
-              "translator": { "type": "string" },
-              "year": { "type": "integer" },
-              "reader_verdict": { "type": "string" },
-              "consensus": { "$ref": "#/$defs/consensus" }
+              "translator": {
+                "type": "string"
+              },
+              "year": {
+                "type": "integer"
+              },
+              "reader_verdict": {
+                "type": "string"
+              },
+              "consensus": {
+                "$ref": "#/$defs/consensus"
+              }
             }
           }
         },
-        "notable_editions": { "type": "array", "items": { "type": "string" } }
+        "notable_editions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
-
     "resonance": {
       "type": "object",
       "description": "Why the book sticks with people. The emotional heart of the page.",
       "additionalProperties": false,
       "properties": {
-        "core_reason": { "$ref": "#/$defs/finding", "description": "The single most repeated reason readers love it." },
-        "dominant_emotion": { "$ref": "#/$defs/finding" },
-        "what_it_does_to_readers": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
-        "best_life_stage": { "$ref": "#/$defs/finding", "description": "When in life this book lands hardest." },
-        "reread_value": { "$ref": "#/$defs/finding" },
-        "the_moment": { "$ref": "#/$defs/finding", "description": "The scene readers name as the point the book got them." },
-        "comparisons": { "type": "array", "items": { "type": "string" } }
+        "core_reason": {
+          "$ref": "#/$defs/finding",
+          "description": "The single most repeated reason readers love it."
+        },
+        "dominant_emotion": {
+          "$ref": "#/$defs/finding"
+        },
+        "what_it_does_to_readers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/finding"
+          }
+        },
+        "best_life_stage": {
+          "$ref": "#/$defs/finding",
+          "description": "When in life this book lands hardest."
+        },
+        "reread_value": {
+          "$ref": "#/$defs/finding"
+        },
+        "the_moment": {
+          "$ref": "#/$defs/finding",
+          "description": "The scene readers name as the point the book got them."
+        },
+        "comparisons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
-
     "craft": {
       "type": "object",
       "description": "What readers admire about how the book is built.",
@@ -71,192 +148,724 @@
       "properties": {
         "standout_element": {
           "type": "string",
-          "enum": ["prose", "structure", "characters", "worldbuilding", "plot", "humor", "ideas", "ending", "voice", "atmosphere"]
+          "enum": [
+            "prose",
+            "structure",
+            "characters",
+            "worldbuilding",
+            "plot",
+            "humor",
+            "ideas",
+            "ending",
+            "voice",
+            "atmosphere"
+          ]
         },
-        "standout_detail": { "$ref": "#/$defs/finding", "description": "The specific thing about that element, not the adjective." },
-        "unique_claim": { "$ref": "#/$defs/finding", "description": "What readers say no other book does." },
-        "formal_choices": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
-        "difficulty_curve": { "$ref": "#/$defs/finding" }
+        "standout_detail": {
+          "$ref": "#/$defs/finding",
+          "description": "The specific thing about that element, not the adjective."
+        },
+        "unique_claim": {
+          "$ref": "#/$defs/finding",
+          "description": "What readers say no other book does."
+        },
+        "formal_choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/finding"
+          }
+        },
+        "difficulty_curve": {
+          "$ref": "#/$defs/finding"
+        }
       }
     },
-
     "characters": {
       "type": "array",
       "description": "Ordered by how often readers name them, most-loved first.",
       "items": {
         "type": "object",
-        "required": ["name", "why_readers_love_them"],
+        "required": [
+          "name",
+          "why_readers_love_them"
+        ],
         "additionalProperties": false,
         "properties": {
-          "name": { "type": "string" },
-          "role": { "type": "string", "description": "Spoiler-free role, e.g. 'the narrator's brother'." },
-          "why_readers_love_them": { "$ref": "#/$defs/finding" },
-          "signature_moment": { "$ref": "#/$defs/finding" },
-          "divisive": { "type": "boolean" },
-          "the_case_against": { "type": "string", "description": "Required when divisive is true. Steelman it." },
-          "heartbreak": { "type": "boolean", "description": "True if readers name this character as the one who broke them." },
-          "fan_favorite_rank": { "type": "integer" }
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "description": "Spoiler-free role, e.g. 'the narrator's brother'."
+          },
+          "why_readers_love_them": {
+            "$ref": "#/$defs/finding"
+          },
+          "signature_moment": {
+            "$ref": "#/$defs/finding"
+          },
+          "divisive": {
+            "type": "boolean"
+          },
+          "the_case_against": {
+            "type": "string",
+            "description": "Required when divisive is true. Steelman it."
+          },
+          "heartbreak": {
+            "type": "boolean",
+            "description": "True if readers name this character as the one who broke them."
+          },
+          "fan_favorite_rank": {
+            "type": "integer"
+          }
         }
       }
     },
-
     "book_quotes": {
       "type": "array",
       "description": "Lines from the book that readers quote most. Ordered by frequency.",
       "items": {
         "type": "object",
-        "required": ["text", "spoiler"],
+        "required": [
+          "text",
+          "spoiler"
+        ],
         "additionalProperties": false,
         "properties": {
-          "text": { "type": "string", "description": "Verbatim. Keep short for in-copyright works." },
-          "speaker": { "type": "string" },
-          "location": { "type": "string", "description": "Roughly where it falls, e.g. 'Part II, ch. 34' or 'closing line'." },
-          "translation": { "type": "string", "description": "Translator, for translated works — famous lines differ by translation." },
-          "why_it_lands": { "$ref": "#/$defs/finding" },
-          "spoiler": { "type": "boolean" },
-          "frequency": { "$ref": "#/$defs/consensus" },
-          "tattoo_tier": { "type": "boolean", "description": "Readers report tattooing it, using it in vows, etc." },
-          "commonly_misread": { "type": "string", "description": "The actual context, when the line is usually quoted out of it." }
+          "text": {
+            "type": "string",
+            "description": "Verbatim. Keep short for in-copyright works."
+          },
+          "speaker": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string",
+            "description": "Roughly where it falls, e.g. 'Part II, ch. 34' or 'closing line'."
+          },
+          "translation": {
+            "type": "string",
+            "description": "Translator, for translated works — famous lines differ by translation."
+          },
+          "why_it_lands": {
+            "$ref": "#/$defs/finding"
+          },
+          "spoiler": {
+            "type": "boolean"
+          },
+          "frequency": {
+            "$ref": "#/$defs/consensus"
+          },
+          "tattoo_tier": {
+            "type": "boolean",
+            "description": "Readers report tattooing it, using it in vows, etc."
+          },
+          "commonly_misread": {
+            "type": "string",
+            "description": "The actual context, when the line is usually quoted out of it."
+          }
         }
       }
     },
-
     "reader_voices": {
       "type": "array",
       "description": "Real, linkable reader comments. NEVER fabricate an entry here.",
       "items": {
         "type": "object",
-        "required": ["quote", "username", "platform", "permalink"],
+        "required": [
+          "quote",
+          "username",
+          "platform",
+          "permalink"
+        ],
         "additionalProperties": false,
         "properties": {
-          "quote": { "type": "string", "description": "1-3 sentences, verbatim. Trim with '…' only." },
-          "username": { "type": "string", "description": "Public handle only. Never a real name or other identifying detail." },
-          "platform": { "type": "string", "description": "e.g. 'reddit r/books', 'Goodreads', 'StoryGraph'." },
-          "permalink": { "type": "string", "format": "uri" },
-          "date": { "type": "string", "description": "ISO date or year." },
+          "quote": {
+            "type": "string",
+            "description": "1-3 sentences, verbatim. Trim with '…' only."
+          },
+          "username": {
+            "type": "string",
+            "description": "Public handle only. Never a real name or other identifying detail."
+          },
+          "platform": {
+            "type": "string",
+            "description": "e.g. 'reddit r/books', 'Goodreads', 'StoryGraph'."
+          },
+          "permalink": {
+            "type": "string",
+            "format": "uri"
+          },
+          "date": {
+            "type": "string",
+            "description": "ISO date or year."
+          },
           "angle": {
             "type": "string",
             "description": "What this voice is doing on the page.",
-            "enum": ["love", "craft", "character", "emotional-impact", "reading-experience", "reread", "converted-skeptic", "critical", "format-recommendation", "funny"]
+            "enum": [
+              "love",
+              "craft",
+              "character",
+              "emotional-impact",
+              "reading-experience",
+              "reread",
+              "converted-skeptic",
+              "critical",
+              "format-recommendation",
+              "funny"
+            ]
           },
-          "spoiler": { "type": "boolean" }
+          "spoiler": {
+            "type": "boolean"
+          }
         }
       }
     },
-
+    "setting": {
+      "type": "object",
+      "description": "The place the book puts readers, and how they describe being there. Drives page art direction.",
+      "additionalProperties": false,
+      "properties": {
+        "place": {
+          "$ref": "#/$defs/finding"
+        },
+        "setting_as_character": {
+          "$ref": "#/$defs/finding"
+        },
+        "sensory_signature": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Weather, light, smell, sound, food, season - as readers describe them."
+        },
+        "best_reading_conditions": {
+          "type": "string",
+          "description": "When and where readers say to read it, e.g. 'winter book', 'do not read on a plane'."
+        },
+        "real_locations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Places readers visit because of the book; fan-maintained maps."
+        },
+        "lingering_detail": {
+          "$ref": "#/$defs/finding"
+        }
+      }
+    },
+    "misconceptions": {
+      "type": "array",
+      "description": "What people wrongly believe before reading. The conversion block.",
+      "items": {
+        "type": "object",
+        "required": [
+          "belief",
+          "reality"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "belief": {
+            "type": "string",
+            "description": "What people think going in."
+          },
+          "reality": {
+            "type": "string",
+            "description": "What readers report instead."
+          },
+          "costs_readers": {
+            "type": "boolean",
+            "description": "True when this belief actively keeps people from picking it up."
+          },
+          "school_assignment_effect": {
+            "type": "boolean",
+            "description": "True when the misconception traces to being taught badly."
+          },
+          "consensus": {
+            "$ref": "#/$defs/consensus"
+          }
+        }
+      }
+    },
     "debates": {
       "type": "array",
       "description": "What the fandom argues about. Seeds club discussion.",
       "items": {
         "type": "object",
-        "required": ["question", "side_a", "side_b"],
+        "required": [
+          "question",
+          "side_a",
+          "side_b"
+        ],
         "additionalProperties": false,
         "properties": {
-          "question": { "type": "string" },
-          "side_a": { "type": "string", "description": "Steelmanned." },
-          "side_b": { "type": "string", "description": "Steelmanned." },
-          "settled": { "type": "boolean", "description": "False when the fandom genuinely has no answer." },
-          "spoiler": { "type": "boolean" },
-          "discussion_prompt": { "type": "string", "description": "How to pose this to the club." }
+          "question": {
+            "type": "string"
+          },
+          "side_a": {
+            "type": "string",
+            "description": "Steelmanned."
+          },
+          "side_b": {
+            "type": "string",
+            "description": "Steelmanned."
+          },
+          "settled": {
+            "type": "boolean",
+            "description": "False when the fandom genuinely has no answer."
+          },
+          "spoiler": {
+            "type": "boolean"
+          },
+          "discussion_prompt": {
+            "type": "string",
+            "description": "How to pose this to the club."
+          }
         }
       }
     },
-
+    "reception": {
+      "type": "object",
+      "description": "How the book's standing got to where it is. A timeline strip.",
+      "additionalProperties": false,
+      "properties": {
+        "initial_reception": {
+          "type": "string"
+        },
+        "reputation_arc": {
+          "$ref": "#/$defs/finding",
+          "description": "Risen, fallen, or rediscovered - and what caused the shift."
+        },
+        "awards": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "banned_or_challenged": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "ever": {
+              "type": "boolean"
+            },
+            "note": {
+              "type": "string",
+              "description": "Where, when, and on what stated grounds. Report neutrally."
+            }
+          }
+        },
+        "generational_split": {
+          "$ref": "#/$defs/finding"
+        },
+        "cultural_moment": {
+          "type": "string",
+          "description": "Sales phenomenon, adaptation bump, BookTok surge, celebrity endorsement."
+        }
+      }
+    },
+    "author": {
+      "type": "object",
+      "description": "Biography only where it changes the reading. Not a Wikipedia summary.",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "biography_that_colors_the_read": {
+          "$ref": "#/$defs/finding"
+        },
+        "where_it_sits_in_their_work": {
+          "type": "string",
+          "description": "The one to start with, the outlier, the late masterpiece."
+        },
+        "author_on_the_book": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "quote"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "quote": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "year": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "reader_tension": {
+          "$ref": "#/$defs/finding",
+          "description": "Live separate-the-art-from-the-artist debate. State both positions; do not adjudicate."
+        },
+        "unfinished_work_note": {
+          "type": "string",
+          "description": "When the wait is part of the fandom - Doors of Stone, Winds of Winter."
+        },
+        "further_reading": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "fandom": {
+      "type": "object",
+      "description": "What this book's community has built. Best source of things the club can actually do.",
+      "additionalProperties": false,
+      "properties": {
+        "communities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "platform": {
+                "type": "string"
+              },
+              "size_note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "rituals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/finding"
+          },
+          "description": "Annual re-reads, seasonal reads, reading it before a life event."
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tattoos, art, maps, playlists, collected editions, cosplay."
+        },
+        "running_jokes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Shorthand a newcomer wouldn't get. Explain each."
+        },
+        "pilgrimages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "adaptation_stance": {
+          "type": "string",
+          "enum": [
+            "protective",
+            "welcoming",
+            "split",
+            "indifferent"
+          ]
+        }
+      }
+    },
     "before_you_start": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "who_its_for": { "type": "string" },
-        "who_bounces_off": { "type": "string" },
-        "content_warnings": { "type": "array", "items": { "type": "string" }, "description": "Plain, non-judgmental." },
+        "who_its_for": {
+          "type": "string"
+        },
+        "who_bounces_off": {
+          "type": "string"
+        },
+        "content_warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Plain, non-judgmental."
+        },
         "audiobook": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "recommended_narrator": { "type": "string" },
-            "verdict": { "type": "string" },
-            "preferred_format": { "type": "string", "enum": ["print", "audio", "either"] }
+            "recommended_narrator": {
+              "type": "string"
+            },
+            "verdict": {
+              "type": "string"
+            },
+            "preferred_format": {
+              "type": "string",
+              "enum": [
+                "print",
+                "audio",
+                "either"
+              ]
+            }
           }
         },
-        "wish_id_known": { "type": "array", "items": { "type": "string" } },
-        "companion_material": { "type": "array", "items": { "type": "string" } },
-        "commitment_point": { "type": "string", "description": "Where readers say you'll know, e.g. 'if page 200 hasn't got you, stop'." },
+        "wish_id_known": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "companion_material": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "commitment_point": {
+          "type": "string",
+          "description": "Where readers say you'll know, e.g. 'if page 200 hasn't got you, stop'."
+        },
         "adaptations": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["title"],
+            "required": [
+              "title"
+            ],
             "additionalProperties": false,
             "properties": {
-              "title": { "type": "string" },
-              "year": { "type": "integer" },
-              "medium": { "type": "string" },
-              "reader_verdict": { "type": "string" },
-              "before_or_after": { "type": "string", "enum": ["before", "after", "either", "avoid"] }
+              "title": {
+                "type": "string"
+              },
+              "year": {
+                "type": "integer"
+              },
+              "medium": {
+                "type": "string"
+              },
+              "reader_verdict": {
+                "type": "string"
+              },
+              "before_or_after": {
+                "type": "string",
+                "enum": [
+                  "before",
+                  "after",
+                  "either",
+                  "avoid"
+                ]
+              }
             }
           }
         }
       }
     },
-
+    "club_kit": {
+      "type": "object",
+      "description": "Everything a facilitator needs to run a session on this book.",
+      "additionalProperties": false,
+      "properties": {
+        "discussion_questions": {
+          "type": "array",
+          "description": "Questions that produce disagreement, not summary. Draw from `debates`.",
+          "items": {
+            "type": "object",
+            "required": [
+              "question"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "question": {
+                "type": "string"
+              },
+              "spoiler": {
+                "type": "boolean"
+              },
+              "splits_the_room": {
+                "type": "boolean"
+              },
+              "draws_on": {
+                "type": "string",
+                "description": "Which research section this came out of."
+              }
+            }
+          }
+        },
+        "session_split": {
+          "type": "string",
+          "description": "Natural break points for a multi-session read."
+        },
+        "read_aloud_passages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Short opener passages. Respect the quote-length rules."
+        },
+        "pairing": {
+          "type": "string",
+          "description": "Food, drink, music, short film that fans actually associate with the book."
+        },
+        "facilitator_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Advance content warnings, spoilers that ruin a first-timer's session, debates that eat the hour."
+        }
+      }
+    },
     "if_you_loved_this": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["title", "author", "reason"],
+        "required": [
+          "title",
+          "author",
+          "reason"
+        ],
         "additionalProperties": false,
         "properties": {
-          "title": { "type": "string" },
-          "author": { "type": "string" },
-          "reason": { "type": "string", "description": "One line on why this pairing works." },
-          "same_author": { "type": "boolean" },
-          "consensus": { "$ref": "#/$defs/consensus" }
+          "title": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "description": "One line on why this pairing works."
+          },
+          "same_author": {
+            "type": "boolean"
+          },
+          "consensus": {
+            "$ref": "#/$defs/consensus"
+          }
         }
       }
     },
-
     "research_notes": {
       "type": "object",
-      "required": ["sources", "gaps"],
+      "required": [
+        "sources",
+        "gaps",
+        "strongest_sections"
+      ],
       "additionalProperties": false,
       "properties": {
         "sources": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["url"],
+            "required": [
+              "url"
+            ],
             "additionalProperties": false,
             "properties": {
-              "url": { "type": "string", "format": "uri" },
-              "title": { "type": "string" },
-              "platform": { "type": "string" },
-              "date": { "type": "string" },
-              "comments_read": { "type": "integer" }
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "title": {
+                "type": "string"
+              },
+              "platform": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "comments_read": {
+                "type": "integer"
+              }
             }
           }
         },
-        "gaps": { "type": "array", "items": { "type": "string" }, "description": "Core questions that found no real answer." },
-        "verify_before_publishing": { "type": "array", "items": { "type": "string" } },
-        "researched_at": { "type": "string", "format": "date" }
+        "gaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Core questions that found no real answer."
+        },
+        "verify_before_publishing": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "researched_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "strongest_sections": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The 3-4 sections that came back richest for this book, best first. Drives which sections the editor leads the page with."
+        }
       }
     }
   },
-
   "$defs": {
     "consensus": {
       "type": "string",
       "description": "How widely held this view is among readers.",
-      "enum": ["near-universal", "common", "minority", "singular"]
+      "enum": [
+        "near-universal",
+        "common",
+        "minority",
+        "singular"
+      ]
     },
     "finding": {
       "type": "object",
-      "required": ["claim"],
+      "required": [
+        "claim"
+      ],
       "additionalProperties": false,
       "properties": {
-        "claim": { "type": "string", "description": "What readers say. Specific, not adjectival." },
-        "consensus": { "$ref": "#/$defs/consensus" },
-        "evidence": { "type": "array", "items": { "type": "string", "format": "uri" }, "description": "Permalinks supporting the claim." },
-        "spoiler": { "type": "boolean" }
+        "claim": {
+          "type": "string",
+          "description": "What readers say. Specific, not adjectival."
+        },
+        "consensus": {
+          "$ref": "#/$defs/consensus"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": "Permalinks supporting the claim."
+        },
+        "spoiler": {
+          "type": "boolean"
+        }
       }
     }
   }
