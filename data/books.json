@@ -1,0 +1,561 @@
+{
+  "description": "Books queued for fan pages. `prompt_variants` names the variant blocks in research/FAN_PAGE_PROMPT.md to append when researching this title. `status` tracks the pipeline: not-researched -> researched -> drafted -> published.",
+  "count": 50,
+  "books": [
+    {
+      "slug": "east-of-eden",
+      "title": "East of Eden",
+      "author": "John Steinbeck",
+      "year_published": 1952,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Frequently cited as a masterpiece of prose and character development.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "to-kill-a-mockingbird",
+      "title": "To Kill a Mockingbird",
+      "author": "Harper Lee",
+      "year_published": 1960,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "A perennial favorite for its emotional resonance and timeless themes.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "1984",
+      "title": "1984",
+      "author": "George Orwell",
+      "year_published": 1949,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Widely recommended for its compelling narrative and enduring social relevance.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-count-of-monte-cristo",
+      "title": "The Count of Monte Cristo",
+      "author": "Alexandre Dumas",
+      "year_published": 1844,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Praised for delivering the ultimate page-turning revenge narrative.",
+      "prompt_variants": [
+        "translated"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "author": "Fyodor Dostoevsky",
+      "year_published": 1866,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Loved for its deep psychological exploration of guilt and redemption.",
+      "prompt_variants": [
+        "translated"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-brothers-karamazov",
+      "title": "The Brothers Karamazov",
+      "author": "Fyodor Dostoevsky",
+      "year_published": 1880,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Hailed as one of the greatest philosophical novels ever written.",
+      "prompt_variants": [
+        "translated"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "one-hundred-years-of-solitude",
+      "title": "One Hundred Years of Solitude",
+      "author": "Gabriel García Márquez",
+      "year_published": 1967,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "The defining standard for magical realism.",
+      "prompt_variants": [
+        "translated"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "pride-and-prejudice",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "year_published": 1813,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Revered for its sharp wit, memorable characters, and dialogue.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-great-gatsby",
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "year_published": 1925,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Praised for its concise structure and evocative prose.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "stoner",
+      "title": "Stoner",
+      "author": "John Williams",
+      "year_published": 1965,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "A quiet, understated novel with cult-favorite status across forums.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "frankenstein",
+      "title": "Frankenstein",
+      "author": "Mary Shelley",
+      "year_published": 1818,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Honored as a foundational science fiction masterpiece.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "catch-22",
+      "title": "Catch-22",
+      "author": "Joseph Heller",
+      "year_published": 1961,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Celebrated for its dark satire and absurd humor.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "jane-eyre",
+      "title": "Jane Eyre",
+      "author": "Charlotte Brontë",
+      "year_published": 1847,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "A gothic romance favorite with strong character agency.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "flowers-for-algernon",
+      "title": "Flowers for Algernon",
+      "author": "Daniel Keyes",
+      "year_published": 1966,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Mentioned as one of the most emotionally devastating books people read.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "slaughterhouse-five",
+      "title": "Slaughterhouse-Five",
+      "author": "Kurt Vonnegut",
+      "year_published": 1969,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Vonnegut's signature mix of dark humor and anti-war sentiment.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "moby-dick",
+      "title": "Moby-Dick",
+      "author": "Herman Melville",
+      "year_published": 1851,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Loved for its grand scope and prose.",
+      "prompt_variants": [
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "brave-new-world",
+      "title": "Brave New World",
+      "author": "Aldous Huxley",
+      "year_published": 1932,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Constantly paired alongside 1984 as essential dystopian fiction.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "fahrenheit-451",
+      "title": "Fahrenheit 451",
+      "author": "Ray Bradbury",
+      "year_published": 1953,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "A staple recommendation for its passion for literature and freedom of thought.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-picture-of-dorian-gray",
+      "title": "The Picture of Dorian Gray",
+      "author": "Oscar Wilde",
+      "year_published": 1890,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Loved for its gothic aesthetics and philosophical themes.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "les-miserables",
+      "title": "Les Misérables",
+      "author": "Victor Hugo",
+      "year_published": 1862,
+      "category": "Classic Literature & Masterpieces",
+      "community_note": "Regarded for its epic scope, passion, and moral clarity.",
+      "prompt_variants": [
+        "translated"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-lord-of-the-rings",
+      "title": "The Lord of the Rings",
+      "author": "J.R.R. Tolkien",
+      "year_published": 1954,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "The undisputed gold standard for modern epic fantasy.",
+      "prompt_variants": [
+        "series"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "dune",
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "year_published": 1965,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "A masterwork of worldbuilding and political intrigue.",
+      "prompt_variants": [
+        "series"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-hitchhiker-s-guide-to-the-galaxy",
+      "title": "The Hitchhiker's Guide to the Galaxy",
+      "author": "Douglas Adams",
+      "year_published": 1979,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "A staple recommendation for science fiction comedy.",
+      "prompt_variants": [
+        "series"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "project-hail-mary",
+      "title": "Project Hail Mary",
+      "author": "Andy Weir",
+      "year_published": 2021,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "A modern crowd-pleaser for optimism and inventive problem-solving.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "hyperion",
+      "title": "Hyperion",
+      "author": "Dan Simmons",
+      "year_published": 1989,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "For readers who want a structural homage to The Canterbury Tales.",
+      "prompt_variants": [
+        "series"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "ender-s-game",
+      "title": "Ender's Game",
+      "author": "Orson Scott Card",
+      "year_published": 1985,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "A fast-paced modern science fiction favorite.",
+      "prompt_variants": [
+        "series",
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "his-dark-materials",
+      "title": "His Dark Materials",
+      "author": "Philip Pullman",
+      "year_published": 1995,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "Recommended for its imaginative scale and philosophical depth.",
+      "prompt_variants": [
+        "series"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-hobbit",
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "year_published": 1937,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "Beloved as an accessible entry point into fantasy fiction.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "a-song-of-ice-and-fire",
+      "title": "A Song of Ice and Fire",
+      "author": "George R.R. Martin",
+      "year_published": 1996,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "Praised for character complexity and gritty realism.",
+      "prompt_variants": [
+        "series"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-name-of-the-wind",
+      "title": "The Name of the Wind",
+      "author": "Patrick Rothfuss",
+      "year_published": 2007,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "Praised for its lyrical prose and storytelling style.",
+      "prompt_variants": [
+        "series",
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-way-of-kings",
+      "title": "The Way of Kings",
+      "author": "Brandon Sanderson",
+      "year_published": 2010,
+      "category": "Sci-Fi, Fantasy & Speculative",
+      "community_note": "A staple for readers looking for expansive modern high fantasy.",
+      "prompt_variants": [
+        "series"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "lonesome-dove",
+      "title": "Lonesome Dove",
+      "author": "Larry McMurtry",
+      "year_published": 1985,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "One of the most frequently recommended character-driven Western epics.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "blood-meridian",
+      "title": "Blood Meridian",
+      "author": "Cormac McCarthy",
+      "year_published": 1985,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Revered for its dark tone and poetic prose.",
+      "prompt_variants": [
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-secret-history",
+      "title": "The Secret History",
+      "author": "Donna Tartt",
+      "year_published": 1992,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "The definitive favorite for fans of dark academia.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "a-gentleman-in-moscow",
+      "title": "A Gentleman in Moscow",
+      "author": "Amor Towles",
+      "year_published": 2016,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Loved for its charm, warmth, and memorable protagonist.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-shadow-of-the-wind",
+      "title": "The Shadow of the Wind",
+      "author": "Carlos Ruiz Zafón",
+      "year_published": 2001,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "A love letter to books, mystery, and gothic atmosphere.",
+      "prompt_variants": [
+        "translated",
+        "series"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "1q84",
+      "title": "1Q84",
+      "author": "Haruki Murakami",
+      "year_published": 2009,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Recommended for surrealist prose and immersive atmosphere.",
+      "prompt_variants": [
+        "translated",
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "kafka-on-the-shore",
+      "title": "Kafka on the Shore",
+      "author": "Haruki Murakami",
+      "year_published": 2002,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Recommended for surrealist prose and immersive atmosphere.",
+      "prompt_variants": [
+        "translated"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-road",
+      "title": "The Road",
+      "author": "Cormac McCarthy",
+      "year_published": 2006,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Revered for its stripped-back, emotional post-apocalyptic narrative.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "station-eleven",
+      "title": "Station Eleven",
+      "author": "Emily St. John Mandel",
+      "year_published": 2014,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Loved for its poetic take on art, memory, and survival after an apocalypse.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "a-little-life",
+      "title": "A Little Life",
+      "author": "Hanya Yanagihara",
+      "year_published": 2015,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Cited as one of the most intensely emotional reads online.",
+      "prompt_variants": [
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-book-thief",
+      "title": "The Book Thief",
+      "author": "Markus Zusak",
+      "year_published": 2005,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Celebrated for its unique narration and emotional weight.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "never-let-me-go",
+      "title": "Never Let Me Go",
+      "author": "Kazuo Ishiguro",
+      "year_published": 2005,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "Revered for its subtle, tragic take on speculative fiction.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "the-master-and-margarita",
+      "title": "The Master and Margarita",
+      "author": "Mikhail Bulgakov",
+      "year_published": 1967,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "An eccentric, beloved satire with a dedicated online following.",
+      "prompt_variants": [
+        "translated"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "infinite-jest",
+      "title": "Infinite Jest",
+      "author": "David Foster Wallace",
+      "year_published": 1996,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "A polarizing, frequently discussed literary challenge.",
+      "prompt_variants": [
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "house-of-leaves",
+      "title": "House of Leaves",
+      "author": "Mark Z. Danielewski",
+      "year_published": 2000,
+      "category": "Modern Classics & Literary Fiction",
+      "community_note": "The top recommendation for innovative structure and psychological dread.",
+      "prompt_variants": [
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "man-s-search-for-meaning",
+      "title": "Man's Search for Meaning",
+      "author": "Viktor E. Frankl",
+      "year_published": 1946,
+      "category": "Non-Fiction & Memoir",
+      "community_note": "Frequently cited in life-changing books discussions.",
+      "prompt_variants": [
+        "translated"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "sapiens-a-brief-history-of-humankind",
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "year_published": 2011,
+      "category": "Non-Fiction & Memoir",
+      "community_note": "A non-fiction staple for accessible history.",
+      "prompt_variants": [
+        "translated",
+        "divisive"
+      ],
+      "status": "not-researched"
+    },
+    {
+      "slug": "educated",
+      "title": "Educated",
+      "author": "Tara Westover",
+      "year_published": 2018,
+      "category": "Non-Fiction & Memoir",
+      "community_note": "A widely praised memoir about family, isolation, and learning.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    },
+    {
+      "slug": "surely-you-re-joking-mr-feynman",
+      "title": "Surely You're Joking, Mr. Feynman!",
+      "author": "Richard P. Feynman",
+      "year_published": 1985,
+      "category": "Non-Fiction & Memoir",
+      "community_note": "Popular for its humor, curiosity, and storytelling.",
+      "prompt_variants": [],
+      "status": "not-researched"
+    }
+  ]
+}
