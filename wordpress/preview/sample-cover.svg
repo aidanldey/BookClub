@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 540" role="img" aria-label="Placeholder book cover">
+  <rect width="360" height="540" fill="#F0EBE0"/>
+  <rect x="0" y="0" width="14" height="540" fill="#C4956A"/>
+  <rect x="40" y="60" width="280" height="1" fill="#C4956A"/>
+  <text x="180" y="150" text-anchor="middle" font-family="Lora, Georgia, serif" font-size="40" font-weight="600" fill="#1A1410">Pride and</text>
+  <text x="180" y="200" text-anchor="middle" font-family="Lora, Georgia, serif" font-size="40" font-weight="600" fill="#1A1410">Prejudice</text>
+  <text x="180" y="250" text-anchor="middle" font-family="'Space Mono', monospace" font-size="14" letter-spacing="3" fill="#6B7280">JANE AUSTEN</text>
+  <rect x="40" y="290" width="280" height="1" fill="#C4956A"/>
+  <text x="180" y="470" text-anchor="middle" font-family="'Space Mono', monospace" font-size="11" letter-spacing="2" fill="#9CA3AF">PLACEHOLDER COVER</text>
+</svg>

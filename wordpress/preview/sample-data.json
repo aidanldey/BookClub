@@ -1,0 +1,306 @@
+{
+  "_fixture": "DESIGN FIXTURE — NOT RESEARCH OUTPUT. The book quotes are genuine public-domain Austen; every entry in reader_voices is invented placeholder text with example.com permalinks, written only to exercise the template. Never publish this file, and never copy its reader_voices into a real page.",
+  "book": {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "year_published": 1813,
+    "original_language": "English",
+    "page_count": 279,
+    "reading_time_note": "A week of evenings",
+    "shelf": "Romance",
+    "shelf_actual": "Social comedy with a marriage plot",
+    "one_line_pitch": "A sharp-tongued second daughter and a rich man who insults her in public spend four hundred pages discovering they were both wrong about almost everything.",
+    "notable_editions": ["Oxford World's Classics (Davie)", "Norton Critical Edition"]
+  },
+  "resonance": {
+    "core_reason": "It is the rare romance where the obstacle is not circumstance but character — both leads have to become better people before they can be together, and the book makes you watch them do it.",
+    "dominant_emotion": "Delighted vindication",
+    "what_it_does_to_readers": [
+      "Makes them defensive about a genre they were taught to look down on",
+      "Sends them back to reread the first proposal now that they know how it ends",
+      "Ruins other romances, where the leads merely misunderstand each other"
+    ],
+    "best_life_stage": "Any, but it changes shape after your own first humbling",
+    "reread_value": "Very high — the first read is plot, the second is Austen's irony, and the third is the parents",
+    "the_moment": "The letter after the failed proposal. Elizabeth reads it twice, and so do most readers.",
+    "comparisons": ["Emma", "North and South", "Cold Comfort Farm"]
+  },
+  "craft": {
+    "standout_element": "voice",
+    "standout_detail": "Austen reports her characters' thoughts in the narrator's own voice, so praise and mockery arrive in the same sentence — readers quote the first line constantly and half of them miss that it is a joke at the neighbours' expense, not a statement of fact.",
+    "unique_claim": "It is the only major romance where the heroine's decisive act is changing her mind, and the book treats that as heroic rather than weak.",
+    "formal_choices": [
+      "Letters carry the turning points — Darcy's letter, Lydia's note, Mrs. Gardiner's explanation",
+      "Almost no physical description; characters are built entirely from speech",
+      "The proposals are structural twins, and the second is deliberately anticlimactic"
+    ],
+    "difficulty_curve": "The first three chapters are the hardest — once the Bennets are straight in your head, it moves quickly."
+  },
+  "characters": [
+    {
+      "name": "Elizabeth Bennet",
+      "role": "Second Bennet daughter",
+      "why_readers_love_them": "She is funny on the page rather than described as funny, and she is allowed to be badly, embarrassingly wrong without the book withdrawing its affection.",
+      "signature_moment": "Refusing Darcy's first proposal in terms so scathing that he leaves the room — and then reading his letter and realising she was working from Wickham's version of events.",
+      "divisive": false,
+      "heartbreak": false,
+      "fan_favorite_rank": 1
+    },
+    {
+      "name": "Mr. Darcy",
+      "role": "Master of Pemberley",
+      "why_readers_love_them": "Readers love that his growth happens off the page and is shown only through what he does — the Lydia business is settled before Elizabeth learns he was involved.",
+      "signature_moment": "Paying Wickham's debts and telling nobody.",
+      "divisive": true,
+      "the_case_against": "A strand of readers finds him insufferable rather than reserved, and argues the book lets a wealthy man buy his way out of his own behaviour.",
+      "heartbreak": false,
+      "fan_favorite_rank": 2
+    },
+    {
+      "name": "Mr. Bennet",
+      "role": "Father of five daughters",
+      "why_readers_love_them": "The funniest character in the book on a first read and the saddest on a second — his wit is how he avoids doing anything about his family.",
+      "signature_moment": "Telling Elizabeth she must be a stranger to one of her parents from this day forward.",
+      "divisive": true,
+      "the_case_against": "His detachment nearly ruins all five daughters, and the book forgives him more easily than many readers do.",
+      "heartbreak": true,
+      "fan_favorite_rank": 3
+    },
+    {
+      "name": "Charlotte Lucas",
+      "role": "Elizabeth's closest friend",
+      "why_readers_love_them": "She makes the coldly practical choice Elizabeth refuses, and the book declines to punish her for it. Readers argue about her more than about Wickham.",
+      "signature_moment": "Arranging her sitting room so that she sees less of her husband.",
+      "divisive": true,
+      "the_case_against": "Some readers read her as a cautionary figure rather than a clear-eyed one.",
+      "heartbreak": true,
+      "fan_favorite_rank": 4
+    }
+  ],
+  "book_quotes": [
+    {
+      "text": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+      "location": "Chapter 1",
+      "why_it_lands": "The most quoted opening in English fiction, and the whole book is in it: a claim stated as universal fact that turns out to be the private wish of one neighbourhood's mothers.",
+      "spoiler": false,
+      "frequency": "Constant — it is the line non-readers know",
+      "tattoo_tier": true,
+      "commonly_misread": "Quoted sincerely as Austen's own view. It is free indirect irony; the 'universal' truth belongs to Mrs. Bennet and her neighbours, not the narrator."
+    },
+    {
+      "text": "I could easily forgive his pride, if he had not mortified mine.",
+      "speaker": "Elizabeth Bennet",
+      "location": "Chapter 5",
+      "why_it_lands": "Elizabeth names the book's actual subject sixty pages in, and does not realise she is describing herself.",
+      "spoiler": false,
+      "frequency": "Common in discussions of the title",
+      "tattoo_tier": false
+    },
+    {
+      "text": "In vain I have struggled. It will not do. My feelings will not be repressed. You must allow me to tell you how ardently I admire and love you.",
+      "speaker": "Mr. Darcy",
+      "location": "Chapter 34",
+      "why_it_lands": "The most romantic sentence in the book is the opening of its worst proposal — readers quote it straight, and the scene it belongs to is a disaster.",
+      "spoiler": false,
+      "frequency": "Very high",
+      "tattoo_tier": true
+    },
+    {
+      "text": "Till this moment I never knew myself.",
+      "speaker": "Elizabeth Bennet",
+      "location": "Chapter 36",
+      "why_it_lands": "Six words for the turn the entire novel is built around.",
+      "spoiler": true,
+      "frequency": "High among rereaders",
+      "tattoo_tier": true
+    }
+  ],
+  "reader_voices": [
+    {
+      "quote": "I put off reading this for twenty years because I thought it was a book about bonnets. It is a book about being certain and wrong.",
+      "username": "sample_reader_one",
+      "platform": "Example Forum",
+      "permalink": "https://example.com/fixture-thread#comment-1",
+      "date": "2024-03-11",
+      "angle": "converted-skeptic",
+      "spoiler": false
+    },
+    {
+      "quote": "Nobody warned me the funniest character would turn out to be the most negligent parent in English literature. That reread hit differently.",
+      "username": "sample_reader_two",
+      "platform": "Example Forum",
+      "permalink": "https://example.com/fixture-thread#comment-2",
+      "date": "2024-07-02",
+      "angle": "character",
+      "spoiler": false
+    },
+    {
+      "quote": "The letter chapter is the best piece of construction in the book and everyone talks about the proposals instead.",
+      "username": "sample_reader_three",
+      "platform": "Example Book Club",
+      "permalink": "https://example.com/fixture-thread#comment-3",
+      "date": "2023-11-19",
+      "angle": "craft",
+      "spoiler": false
+    },
+    {
+      "quote": "Honestly it drags in the middle third and Darcy is redeemed largely by being rich. I like it, I just do not think it is the masterpiece people say.",
+      "username": "sample_reader_four",
+      "platform": "Example Forum",
+      "permalink": "https://example.com/fixture-thread#comment-4",
+      "date": "2024-01-08",
+      "angle": "critical",
+      "spoiler": false
+    },
+    {
+      "quote": "Read it aloud with my sister over four evenings. The dialogue is written to be spoken and it is twice as funny out loud.",
+      "username": "sample_reader_five",
+      "platform": "Example Book Club",
+      "permalink": "https://example.com/fixture-thread#comment-5",
+      "date": "2025-02-14",
+      "angle": "reading-experience",
+      "spoiler": false
+    },
+    {
+      "quote": "Charlotte Lucas did nothing wrong and I will be taking no questions.",
+      "username": "sample_reader_six",
+      "platform": "Example Forum",
+      "permalink": "https://example.com/fixture-thread#comment-6",
+      "date": "2024-09-30",
+      "angle": "funny",
+      "spoiler": false
+    }
+  ],
+  "setting": {
+    "place": "Rural Hertfordshire and Derbyshire, in a handful of drawing rooms, assembly halls, and gravel walks.",
+    "setting_as_character": "The houses are arguments: Longbourn is entailed away from the daughters, Rosings is grandeur used as a weapon, and Pemberley is the first evidence that Darcy might be worth reconsidering.",
+    "sensory_signature": ["Muddy hems", "Candlelight card tables", "Six miles of wet footpath", "The noise of a small assembly room"],
+    "best_reading_conditions": "Winter evenings, in more than one sitting.",
+    "real_locations": ["Chatsworth House", "Bath Assembly Rooms", "Chawton Cottage"],
+    "lingering_detail": "Elizabeth walking three miles alone to a sickbed and arriving with her petticoat six inches deep in mud — the entire class argument of the novel in one image."
+  },
+  "misconceptions": [
+    {
+      "belief": "It is a light romance with no real stakes.",
+      "reality": "Mr. Bennet's estate is entailed to a male cousin. If the daughters do not marry, they are destitute when he dies — the book says so in chapter seven.",
+      "costs_readers": true,
+      "school_assignment_effect": false
+    },
+    {
+      "belief": "Darcy says 'You have bewitched me, body and soul.'",
+      "reality": "That line is from the 2005 film, not the novel. Austen's Darcy gets no such speech.",
+      "costs_readers": false,
+      "school_assignment_effect": false
+    },
+    {
+      "belief": "Austen writes sincerely about romantic destiny.",
+      "reality": "She is a satirist first. The narrator mocks nearly everyone, including Elizabeth, and the marriage plot is the vehicle rather than the point.",
+      "costs_readers": true,
+      "school_assignment_effect": true
+    }
+  ],
+  "debates": [
+    {
+      "question": "Is Charlotte Lucas's marriage a tragedy or a reasonable decision?",
+      "side_a": "It is a quiet tragedy: she trades her inner life for security and arranges her house to avoid her husband. Austen shows us the cost precisely.",
+      "side_b": "It is clear-eyed and the book respects it. Charlotte has no fortune and no illusions, chooses a competence over dependence, and is materially better off than she would have been.",
+      "settled": false,
+      "spoiler": false,
+      "discussion_prompt": "If Charlotte had refused Mr. Collins, what actually happens to her?"
+    },
+    {
+      "question": "Does Darcy change, or does Elizabeth simply learn more about him?",
+      "side_a": "He changes. His second proposal is humble where the first was entitled, and he says so himself — he was taught good principles but left to follow them in pride.",
+      "side_b": "The facts change, not the man. The Wickham business, Pemberley's housekeeper, and Lydia's rescue reveal a character that was there all along.",
+      "settled": false,
+      "spoiler": true
+    }
+  ],
+  "reception": {
+    "initial_reception": "Published anonymously in 1813 to warm but unremarkable notices; Austen called it her 'own darling child' in a letter to her sister.",
+    "reputation_arc": "Modest regard through the nineteenth century, sharply rising in the twentieth as critics took the domestic novel seriously, and now near-permanent residence at the top of British reader polls.",
+    "awards": [],
+    "generational_split": "Older readers tend to arrive through the 1995 series, younger ones through the 2005 film, and the two groups picture completely different Darcys.",
+    "cultural_moment": "The 1995 BBC adaptation turned a canonical novel into a mass phenomenon, and most of the fandom's shared imagery dates from it."
+  },
+  "author": {
+    "name": "Jane Austen",
+    "biography_that_colors_the_read": "Austen never married, had no fortune of her own, and spent her life dependent on family arrangements — the economics her characters negotiate were her own.",
+    "where_it_sits_in_their_work": "The most beloved of the six completed novels, though critics more often name Emma or Persuasion her best.",
+    "author_on_the_book": [
+      {
+        "quote": "I must confess that I think her as delightful a creature as ever appeared in print.",
+        "source": "Letter to Cassandra Austen, on Elizabeth Bennet",
+        "year": 1813
+      }
+    ],
+    "reader_tension": "Readers debate how much the novels critique the class system they are set in, and how much they simply operate comfortably inside it.",
+    "further_reading": ["Persuasion", "Emma", "Sense and Sensibility"]
+  },
+  "fandom": {
+    "communities": [
+      { "name": "The Jane Austen Society of North America", "url": "https://jasna.org", "platform": "Society", "size_note": "Regional chapters, annual meeting" }
+    ],
+    "rituals": [
+      "Annual rereads timed to winter",
+      "Regency balls and costumed festivals, particularly the Bath festival in September",
+      "Ranking every adaptation, always, at the slightest provocation"
+    ],
+    "artifacts": ["Empire-line ballgowns", "The 1995 lake scene", "Quotation embroidery samplers"],
+    "running_jokes": ["'It is a truth universally acknowledged that...' applied to absolutely anything", "Mr. Collins as a unit of social awkwardness"],
+    "pilgrimages": ["Chawton Cottage", "Bath", "Chatsworth"],
+    "adaptation_stance": "split"
+  },
+  "before_you_start": {
+    "who_its_for": "Readers who like dialogue that does everything, and who enjoy watching a sharp narrator quietly undercut her characters.",
+    "who_bounces_off": "Readers who need external plot. Almost nothing happens outdoors, and the crises are social.",
+    "content_warnings": ["Coerced marriage as an economic reality", "A teenage girl's elopement with a much older man"],
+    "audiobook": {
+      "recommended_narrator": "Rosamund Pike",
+      "verdict": "Unusually well suited to audio — the irony that readers miss on the page is unmissable when a good narrator delivers it.",
+      "preferred_format": "either"
+    },
+    "wish_id_known": [
+      "The entail is the engine of the plot; read chapter seven carefully",
+      "The first line is a joke",
+      "There are five sisters and you will confuse Kitty and Mary for a hundred pages, and that is fine"
+    ],
+    "companion_material": ["An annotated edition for the money and rank details"],
+    "commitment_point": "The Netherfield ball. If you are enjoying that, you are in.",
+    "adaptations": [
+      { "title": "Pride and Prejudice", "year": 1995, "medium": "BBC series", "reader_verdict": "The fandom default — six hours, and the only version with room for the whole book.", "before_or_after": "after" },
+      { "title": "Pride & Prejudice", "year": 2005, "medium": "Film", "reader_verdict": "Beautiful and heavily compressed; it invents the lines people most often misquote.", "before_or_after": "after" }
+    ]
+  },
+  "club_kit": {
+    "discussion_questions": [
+      { "question": "The first line is ironic. Who exactly is being mocked, and does the book ever let that irony go?", "spoiler": false, "splits_the_room": false, "draws_on": "craft" },
+      { "question": "Is Charlotte's marriage a defeat or a strategy?", "spoiler": false, "splits_the_room": true, "draws_on": "debates" },
+      { "question": "Mr. Bennet is the funniest character and arguably the most culpable. Does the ending hold him accountable?", "spoiler": true, "splits_the_room": true, "draws_on": "characters" },
+      { "question": "Elizabeth changes her mind after reading a letter. Is that a satisfying turning point, or a convenience?", "spoiler": true, "splits_the_room": false, "draws_on": "craft" }
+    ],
+    "session_split": "Two sessions: through the first proposal, then to the end.",
+    "read_aloud_passages": [
+      "Chapter 1, the whole opening exchange between Mr. and Mrs. Bennet",
+      "Mr. Collins's proposal, which is funnier aloud than on the page",
+      "Lady Catherine's confrontation with Elizabeth in the garden"
+    ],
+    "pairing": "Strong tea and something with butter in it.",
+    "facilitator_notes": [
+      "Someone will bring up the 1995 series in the first ten minutes; let it happen and move on",
+      "The Charlotte question reliably runs longest — schedule it last"
+    ]
+  },
+  "if_you_loved_this": [
+    { "title": "Persuasion", "author": "Jane Austen", "reason": "The quiet one, about second chances rather than first impressions.", "same_author": true },
+    { "title": "North and South", "author": "Elizabeth Gaskell", "reason": "The same proud-man-and-sharp-woman structure, moved into industrial Manchester with real stakes.", "same_author": false },
+    { "title": "Cold Comfort Farm", "author": "Stella Gibbons", "reason": "For the readers who came for the irony rather than the romance.", "same_author": false }
+  ],
+  "research_notes": {
+    "sources": [],
+    "gaps": ["reader_voices in this file are fabricated placeholders and must never be published"],
+    "verify_before_publishing": ["Every reader voice — this is a design fixture, not research"],
+    "researched_at": "2026-08-24",
+    "strongest_sections": ["craft", "debates", "misconceptions"]
+  }
+}

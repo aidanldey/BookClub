@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+
+# Generated preview output — rebuild with scripts/preview_fan_page.php
+wordpress/preview/preview.html

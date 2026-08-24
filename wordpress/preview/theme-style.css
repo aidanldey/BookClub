@@ -1,0 +1,699 @@
+/* Verbatim copy of bookloversclub/style.css, kept here only so the static
+   preview has the parent theme's tokens and base styles. Not used by
+   WordPress — refresh it if the theme's stylesheet changes. */
+/*
+Theme Name: BookLoversClub
+Theme URI: https://bookloversclub.com
+Author: BookLoversClub
+Description: A high-end hybrid WordPress theme for BookLoversClub — literary, warm, and rooted in the materiality of reading. Includes templates for book reviews, discussion forums, book lists, and long-form blog posts, with tasteful reading-inspired motion.
+Version: 1.0.0
+Requires at least: 6.2
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: bookloversclub
+Tags: blog, custom-colors, custom-menu, featured-images, threaded-comments, translation-ready
+*/
+
+/* =========================================================
+   1. DESIGN TOKENS  (from the BookLoversClub Identity System)
+   ========================================================= */
+:root {
+  /* Colors */
+  --color-ink: #1A1410;
+  --color-cream: #FFFBF7;
+  --color-clay: #C4956A;
+  --color-clay-dark: #B0805A; /* clay -10% for hover */
+  --color-forest: #3D5A4F;
+  --color-rust: #A85A3A;
+  --color-slate: #6B7280;
+  --color-ivory: #FAF8F5;
+  --color-sand: #F0EBE0;
+  --color-charcoal: #374151;
+  --color-gray: #9CA3AF;
+  --color-success: #10B981;
+  --color-alert: #EF4444;
+
+  /* Semantic */
+  --bg: var(--color-cream);
+  --bg-card: var(--color-ivory);
+  --bg-subtle: var(--color-sand);
+  --text: var(--color-ink);
+  --text-secondary: var(--color-slate);
+  --text-tertiary: var(--color-gray);
+  --accent: var(--color-clay);
+  --border-subtle: var(--color-sand);
+
+  /* Typography */
+  --font-display: 'Lora', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+
+  /* Spacing (16px baseline rhythm) */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
+  --spacing-2xl: 64px;
+
+  /* Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* Motion */
+  --transition-fast: 200ms ease-out;
+  --transition-normal: 300ms ease-out;
+
+  /* Layout */
+  --measure: 42rem;          /* ~90ch reading column */
+  --measure-narrow: 34rem;   /* ~75ch discussion column */
+  --margin-page: 64px;
+}
+
+/* Dark mode — “reading by lamplight, not staring into a void” */
+[data-theme="dark"] {
+  --bg: #0F0D0A;
+  --bg-card: #1A1410;
+  --bg-subtle: #2D2520;
+  --text: var(--color-cream);
+  --text-secondary: var(--color-sand);
+  --text-tertiary: #8A8378;
+  --border-subtle: #2D2520;
+}
+[data-theme="dark"] .site-header,
+[data-theme="dark"] .card { box-shadow: none; }
+
+/* =========================================================
+   2. BASE
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 var(--spacing-sm);
+}
+h1 { font-size: 36px; line-height: 1.2; }
+h2 { font-size: 28px; line-height: 1.3; }
+h3 { font-size: 20px; line-height: 1.3; }
+
+p { margin: 0 0 var(--spacing-sm); }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* Ink-stroke link underline: draws in like a pen line */
+a {
+  color: var(--text);
+  text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 2px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--transition-fast);
+}
+a:hover, a:focus-visible { background-size: 100% 2px; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+::selection { background: var(--color-clay); color: #fff; }
+
+/* =========================================================
+   3. LAYOUT
+   ========================================================= */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--margin-page);
+}
+.reading-column { max-width: var(--measure); margin-left: auto; margin-right: auto; }
+.discussion-column { max-width: var(--measure-narrow); margin-left: auto; margin-right: auto; }
+
+.section { padding: var(--spacing-2xl) 0; }
+
+/* Typographic ornament between major blocks (used once, not repeated) */
+.ornament {
+  border: 0;
+  text-align: center;
+  margin: var(--spacing-xl) auto;
+}
+.ornament::before {
+  content: "❧";
+  color: var(--accent);
+  font-size: 20px;
+}
+
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+/* =========================================================
+   4. HEADER  — with sliding bookmark ribbon progress bar
+   ========================================================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color var(--transition-normal);
+}
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  height: 72px;
+}
+
+/* Logo: the folded page-corner "B" */
+.brand { display: flex; align-items: center; gap: 12px; background: none; }
+.brand:hover { background: none; }
+.brand-mark { width: 32px; height: 32px; flex-shrink: 0; }
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.main-nav ul { display: flex; gap: var(--spacing-lg); list-style: none; margin: 0; padding: 0; }
+.main-nav a { font-size: 16px; padding-bottom: 4px; }
+.main-nav .current-menu-item > a,
+.main-nav .current_page_item > a { background-size: 100% 2px; }
+
+.header-actions { display: flex; align-items: center; gap: var(--spacing-sm); }
+
+/* Dark-mode toggle: a small lamp */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  cursor: pointer;
+  color: var(--text);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+.theme-toggle:hover { border-color: var(--accent); }
+.theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+/* Bookmark-ribbon reading progress (single posts) */
+.reading-ribbon {
+  position: absolute;
+  left: 0; bottom: -6px;
+  height: 6px;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 0 3px 3px 0;
+  transition: width 100ms linear;
+}
+.reading-ribbon::after {           /* ribbon’s notched tail */
+  content: "";
+  position: absolute;
+  right: -6px; top: 0;
+  border-style: solid;
+  border-width: 3px;
+  border-color: var(--accent) transparent var(--accent) var(--accent);
+}
+
+/* =========================================================
+   5. BUTTONS, BADGES, FORMS
+   ========================================================= */
+.btn, button.btn, input[type="submit"] {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+.btn:hover, input[type="submit"]:hover { background: var(--color-clay-dark); }
+.btn:active { transform: translateY(1px); }
+.btn-secondary { background: var(--bg-subtle); color: var(--text); }
+.btn-secondary:hover { background: var(--border-subtle); }
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  color: #fff;
+}
+.badge-featured { background: var(--color-forest); }
+.badge-seasonal { background: var(--color-rust); }
+.badge-author   { background: var(--color-clay); }
+.badge-level    { background: var(--color-slate); }
+
+input[type="text"], input[type="email"], input[type="url"],
+input[type="search"], textarea {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--text);
+  transition: border-color var(--transition-fast);
+}
+input:focus, textarea:focus {
+  outline: none;
+  border: 2px solid var(--accent);
+  padding: 11px 13px;
+}
+::placeholder { color: var(--text-secondary); font-style: italic; }
+
+/* =========================================================
+   6. CARDS — with the signature dog-ear fold
+   ========================================================= */
+.card {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-md);
+  overflow: hidden;
+  transition: box-shadow var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  background: color-mix(in srgb, var(--bg-card) 98%, var(--color-clay));
+}
+
+/* The dog-ear: a page corner that folds down on hover,
+   like marking your place. */
+.card::before,
+.card::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  transition: border-width var(--transition-normal);
+}
+.card::before {                     /* the fold itself */
+  border-style: solid;
+  border-width: 0;
+  border-color: var(--accent) var(--accent) transparent transparent;
+  border-radius: 0 var(--radius-md) 0 var(--radius-sm);
+  z-index: 2;
+}
+.card::after {                      /* shadow under the fold */
+  border-style: solid;
+  border-width: 0;
+  border-color: transparent var(--bg) var(--bg) transparent;
+  z-index: 1;
+}
+.card:hover::before { border-width: 0 16px 16px 0; }
+.card:hover::after  { border-width: 0 17px 17px 0; }
+
+.card h3 { margin-bottom: var(--spacing-xs); }
+.card .card-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+.card .card-excerpt { font-size: 14px; color: var(--text-secondary); margin-bottom: var(--spacing-sm); }
+
+/* Book cover cards */
+.book-cover {
+  aspect-ratio: 3 / 4.5;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.book-cover img { width: 100%; height: 100%; object-fit: cover; }
+.card:hover .book-cover { transform: scale(1.02); box-shadow: var(--shadow-lg); }
+
+/* Star rating (reviews) */
+.rating { color: var(--accent); font-size: 18px; letter-spacing: 2px; }
+.rating .star-empty { color: var(--border-subtle); }
+
+/* =========================================================
+   7. HERO
+   ========================================================= */
+.hero { padding: 96px 0 var(--spacing-2xl); text-align: center; }
+.hero h1 {
+  font-size: clamp(36px, 6vw, 56px);
+  line-height: 1.2;
+  max-width: 18ch;
+  margin: 0 auto var(--spacing-sm);
+}
+.hero p {
+  color: var(--text-secondary);
+  max-width: 44ch;
+  margin: 0 auto var(--spacing-lg);
+}
+
+/* Typeset reveal: hero words settle into place like set type */
+.typeset .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  animation: typeset 600ms ease-out forwards;
+}
+@keyframes typeset {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   8. SINGLE POST / ARTICLE  (blog + reviews)
+   ========================================================= */
+.entry-header { text-align: center; padding: var(--spacing-2xl) 0 var(--spacing-lg); }
+.entry-header .entry-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: var(--spacing-sm);
+}
+.entry-header h1 { font-size: clamp(32px, 5vw, 48px); }
+.entry-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+.entry-meta .sep::before { content: "|"; color: var(--border-subtle); }
+
+.entry-content { font-size: 16px; line-height: 1.6; }
+.entry-content > * { margin-bottom: var(--spacing-md); }
+.entry-content h2 { margin-top: var(--spacing-xl); }
+.entry-content h3 { margin-top: var(--spacing-lg); }
+
+/* Bookish drop cap on long-form posts */
+.has-drop-cap-auto > p:first-of-type::first-letter,
+.entry-content p.has-drop-cap::first-letter {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 3.4em;
+  line-height: 0.85;
+  float: left;
+  padding: 4px 10px 0 0;
+  color: var(--accent);
+}
+
+.entry-content blockquote {
+  border-left: 3px solid var(--accent);
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg-card);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.entry-content code, .entry-content pre {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+}
+.entry-content pre { padding: var(--spacing-sm); overflow-x: auto; }
+.entry-content code { padding: 2px 6px; }
+
+.entry-content .wp-block-image img { border-radius: var(--radius-md); }
+.entry-content figcaption {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: var(--spacing-xs);
+}
+
+/* Review verdict panel */
+.review-verdict {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+  margin: var(--spacing-lg) 0;
+}
+.review-verdict .rating { font-size: 24px; }
+.review-verdict .verdict-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+.review-book-panel {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: var(--spacing-md);
+  align-items: start;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* =========================================================
+   9. DISCUSSIONS (forum)
+   ========================================================= */
+.discussion-list { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.discussion-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+.discussion-stats {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: right;
+  white-space: nowrap;
+}
+.discussion-stats strong { display: block; font-size: 18px; color: var(--text); }
+
+/* Comments — the margin notes of the site */
+.comment-list { list-style: none; padding: 0; margin: 0; }
+.comment {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+.comment .children {
+  list-style: none;
+  padding-left: 12px;
+  margin: var(--spacing-sm) 0 0;
+  border-left: 2px solid var(--border-subtle);
+}
+.comment .children .comment { background: var(--bg); }
+.comment-author-name { font-family: var(--font-display); font-weight: 600; }
+.comment-time { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); }
+.comment-body-text { margin-top: var(--spacing-xs); }
+.comment-reply-link { font-size: 14px; }
+.comment .avatar { border-radius: 50%; border: 2px solid var(--accent); }
+.comment-header { display: flex; align-items: center; gap: 10px; }
+
+.comment-respond { margin-top: var(--spacing-xl); }
+.comment-form label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.comment-form p { margin-bottom: var(--spacing-sm); }
+
+/* =========================================================
+   10. BOOK LISTS
+   ========================================================= */
+.list-entry {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.list-entry:last-child { border-bottom: 0; }
+.list-entry-number {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--accent);
+}
+
+/* Book-list entries: H3s become numbered, table-of-contents style */
+.blc-toc-list { counter-reset: booklist; }
+.blc-toc-list h3 {
+  counter-increment: booklist;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-subtle);
+}
+.blc-toc-list h3::before {
+  content: counter(booklist, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--accent);
+}
+.blc-toc-list h3:first-of-type { border-top: 0; }
+.blc-toc-list h3 + p,
+.blc-toc-list h3 ~ p { padding-left: 0; }
+
+/* =========================================================
+   11. FOOTER
+   ========================================================= */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  margin-top: var(--spacing-2xl);
+}
+.site-footer .container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--spacing-xl);
+}
+.site-footer h4 { font-size: 16px; margin-bottom: var(--spacing-sm); }
+.site-footer ul { list-style: none; padding: 0; margin: 0; }
+.site-footer li { margin-bottom: var(--spacing-xs); }
+.site-footer a { color: var(--text-secondary); }
+.footer-colophon {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+/* =========================================================
+   12. MOTION — page-turn reveals & loading pulse
+   ========================================================= */
+/* Cards enter like pages settling open */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px) perspective(800px) rotateX(2deg);
+  transform-origin: top center;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+/* Loading pulse (Warm Clay dots, never a spinner) */
+.loading-dots span {
+  display: inline-block;
+  width: 8px; height: 8px;
+  margin: 0 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: dot-pulse 1.2s ease-in-out infinite;
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .reveal, .typeset .word { opacity: 1; transform: none; }
+}
+
+/* =========================================================
+   13. RESPONSIVE
+   ========================================================= */
+@media (max-width: 1023px) {
+  :root { --margin-page: 40px; }
+  .section { padding: var(--spacing-xl) 0; }
+}
+@media (max-width: 767px) {
+  :root { --margin-page: 20px; }
+  h1 { font-size: 30px; }
+  h2 { font-size: 24px; }
+  .site-header .container { height: 64px; }
+  .main-nav ul { gap: var(--spacing-sm); }
+  .main-nav a { font-size: 14px; }
+  .site-footer .container { grid-template-columns: 1fr; gap: var(--spacing-lg); }
+  .review-book-panel { grid-template-columns: 100px 1fr; }
+  .discussion-row { grid-template-columns: 1fr; }
+  .discussion-stats { text-align: left; }
+}
+
+/* =========================================================
+   14. UTILITIES & WP CORE
+   ========================================================= */
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+}
+.alignwide { max-width: 1000px; margin-left: auto; margin-right: auto; }
+.alignfull { width: 100%; max-width: none; }
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-lg);
+}
+.section-header .see-all { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); }
+.pagination { display: flex; justify-content: center; gap: var(--spacing-xs); margin-top: var(--spacing-xl); }
+.pagination .page-numbers {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+.pagination .page-numbers.current { background: var(--accent); color: #fff; }

@@ -14,9 +14,14 @@ research/
   SOURCING.md           attribution, privacy, and quoting rules
 scripts/
   validate_page.py      schema + link + editorial checks
+  preview_fan_page.php  render a page to static HTML, no WordPress needed
 data/
   books.json            the 50 books queued for pages
   pages/<slug>.json     research output, one file per book
+wordpress/
+  README.md             install + publishing guide
+  theme-files/          drop-in templates for the BookLoversClub theme
+  preview/              design fixture and generated preview
 ```
 
 ## The workflow
@@ -38,6 +43,16 @@ Then, per book:
 
 ```
 researched → [human review] → drafted → [render] → published
+```
+
+The render step is `wordpress/theme-files/` — a `fan_page` post type whose
+template reads the research JSON straight out of post meta. The page leads with
+the book cover and one representative quote, then runs whichever of the 15
+sections came back with content. See `wordpress/README.md` to install it, and
+preview any page without a WordPress install:
+
+```bash
+php scripts/preview_fan_page.php data/pages/<slug>.json wordpress/preview/preview.html
 ```
 
 Track that in the `status` field of `data/books.json`. It's what makes a

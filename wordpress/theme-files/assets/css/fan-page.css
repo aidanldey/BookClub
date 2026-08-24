@@ -1,0 +1,558 @@
+/**
+ * Fan pages — components layered on the BookLoversClub identity system.
+ *
+ * Every value here resolves to a token from style.css, so dark mode, the
+ * spacing rhythm, and the type scale all follow the parent theme for free.
+ * Nothing in this file redefines a token.
+ */
+
+/* =========================================================
+   1. HERO — cover + representative quote
+   ========================================================= */
+.fan-hero {
+  padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.fan-hero-inner {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+
+/* The cover sits slightly proud of the page, like a book laid on a table. */
+.fan-cover {
+  margin-bottom: 0;
+  box-shadow: var(--shadow-lg);
+}
+.fan-hero-cover .fan-cover { width: 100%; }
+
+.fan-cover-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  text-align: center;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+}
+.fan-cover-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+}
+.fan-cover-author {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.fan-hero-title {
+  font-size: clamp(32px, 5vw, 52px);
+  margin-bottom: var(--spacing-xs);
+}
+.fan-hero-byline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+.fan-dot {
+  display: inline-block;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: middle;
+  margin: 0 4px 2px;
+}
+
+/* The representative quote: the loudest thing on the page after the title. */
+.fan-hero-quote {
+  position: relative;
+  margin: 0 0 var(--spacing-lg);
+  padding: var(--spacing-md) 0 0 var(--spacing-lg);
+  border-left: 3px solid var(--accent);
+}
+.fan-hero-quote::before {
+  content: "\201C";
+  position: absolute;
+  top: -14px;
+  left: 10px;
+  font-family: var(--font-display);
+  font-size: 72px;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.fan-hero-quote blockquote { margin: 0; }
+.fan-hero-quote p {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--text);
+  margin: 0;
+}
+.fan-hero-quote figcaption {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-sm);
+}
+.fan-hero-quote figcaption::before { content: "— "; }
+
+.fan-hero-pitch {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  max-width: 52ch;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* At-a-glance rail */
+.fan-glance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-md) var(--spacing-lg);
+  margin: 0;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-subtle);
+}
+.fan-glance-item { margin: 0; }
+.fan-glance dt {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 2px;
+}
+.fan-glance dd {
+  margin: 0;
+  font-size: 15px;
+  color: var(--text);
+}
+
+/* =========================================================
+   2. SECTION NAV — sticky beneath the site header
+   ========================================================= */
+.fan-nav {
+  position: sticky;
+  top: 72px;
+  z-index: 40;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.fan-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-md);
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-xs) 0;
+}
+.fan-nav ul::-webkit-scrollbar { display: none; }
+.fan-nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  padding-bottom: 3px;
+}
+.fan-nav a.is-current { color: var(--text); background-size: 100% 2px; }
+
+/* =========================================================
+   3. SECTIONS
+   ========================================================= */
+.fan-section { padding: var(--spacing-2xl) 0; }
+.fan-section + .fan-section { padding-top: 0; }
+/* Clear the sticky header and section strip when jumped to from the nav. */
+.fan-section[id] { scroll-margin-top: 140px; }
+
+.fan-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: var(--spacing-xs);
+}
+.fan-section-title { margin-bottom: var(--spacing-md); }
+
+.fan-lede {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.fan-aside {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.fan-inline-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 2px;
+}
+
+/* Lists marked with the dog-ear's cousin: a small clay rule */
+.fan-list { list-style: none; padding: 0; margin: 0 0 var(--spacing-md); }
+.fan-list-marked li {
+  position: relative;
+  padding-left: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
+}
+.fan-list-marked li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 12px;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* A pulled-aside note — the margin annotation of the page */
+.fan-note {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  box-shadow: var(--shadow-sm);
+}
+.fan-note p:last-child { margin-bottom: 0; }
+.fan-note-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--spacing-xs);
+}
+.fan-note-rust { border-left-color: var(--color-rust); }
+.fan-note-rust .fan-note-label { color: var(--color-rust); }
+
+/* Short label/value facts */
+.fan-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+}
+.fan-fact {
+  flex: 1 1 180px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+}
+.fan-fact-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 2px;
+}
+.fan-fact-value { font-size: 15px; }
+
+.fan-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  list-style: none;
+  padding: 0;
+  margin: var(--spacing-sm) 0;
+}
+.fan-chips li {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  color: var(--text-secondary);
+}
+
+.fan-grid { margin-top: var(--spacing-md); }
+
+/* =========================================================
+   4. CHARACTERS
+   ========================================================= */
+.fan-character-head { margin-bottom: var(--spacing-xs); }
+.fan-character-head h3 { margin-bottom: 0; }
+.fan-character-role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+.fan-character-badges { margin-bottom: var(--spacing-sm); display: flex; gap: 6px; flex-wrap: wrap; }
+.fan-character-moment,
+.fan-character-against {
+  font-size: 14px;
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--border-subtle);
+}
+.fan-character-against { color: var(--text-secondary); }
+
+/* =========================================================
+   5. QUOTES FROM THE BOOK
+   ========================================================= */
+.fan-quotes { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+.fan-quote { margin: 0; }
+.fan-quote blockquote {
+  margin: 0;
+  padding: var(--spacing-xs) 0 var(--spacing-xs) var(--spacing-md);
+  border-left: 3px solid var(--border-subtle);
+}
+.fan-quote blockquote p {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 0;
+}
+.fan-quote.is-tattoo-tier blockquote { border-left-color: var(--accent); }
+.fan-quote-flag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--spacing-xs);
+}
+.fan-quote figcaption {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-xs);
+  padding-left: var(--spacing-md);
+}
+.fan-quote figcaption::before { content: "— "; }
+.fan-quote-translator { color: var(--text-tertiary); }
+.fan-quote-translator::before { content: " · "; }
+.fan-quote-gloss,
+.fan-quote-misread {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: var(--spacing-xs) 0 0;
+  padding-left: var(--spacing-md);
+}
+
+/* =========================================================
+   6. READER VOICES — the reason the page exists
+   ========================================================= */
+.fan-voice { display: flex; flex-direction: column; }
+.fan-voice blockquote { margin: 0 0 var(--spacing-sm); flex: 1; }
+.fan-voice blockquote p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+.fan-voice blockquote p::before { content: "\201C"; }
+.fan-voice blockquote p::after  { content: "\201D"; }
+.fan-voice-angle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--spacing-xs);
+}
+/* The dissenting voice is marked, not hidden. */
+.fan-voice.is-critical { border-left: 3px solid var(--color-rust); }
+.fan-voice.is-critical .fan-voice-angle { color: var(--color-rust); }
+
+.fan-voice-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+  padding-top: var(--spacing-xs);
+  border-top: 1px solid var(--border-subtle);
+}
+.fan-voice-handle {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+}
+.fan-voice-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+.fan-voices-note { margin-top: var(--spacing-md); }
+
+/* =========================================================
+   7. MISCONCEPTIONS & DEBATES
+   ========================================================= */
+.fan-myths {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: start;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+.fan-myth {
+  display: contents;
+}
+.fan-myth-belief,
+.fan-myth-reality {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+}
+.fan-myth-belief { color: var(--text-secondary); }
+.fan-myth-belief p { text-decoration: line-through; text-decoration-color: var(--color-rust); }
+.fan-myth-reality { border-left: 3px solid var(--accent); }
+.fan-myth-belief p:last-child,
+.fan-myth-reality p:last-child { margin-bottom: 0; }
+.fan-myth-flag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: var(--spacing-xs);
+}
+
+.fan-debates { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+.fan-debate-question {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+.fan-debate-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+.fan-debate-side {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+}
+.fan-debate-side p:last-child { margin-bottom: 0; }
+.fan-debate-prompt {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-sm);
+}
+
+/* =========================================================
+   8. CLUB KIT, WARNINGS, LISTS
+   ========================================================= */
+.fan-questions { padding-left: var(--spacing-md); }
+.fan-questions li { margin-bottom: var(--spacing-sm); padding-left: var(--spacing-xs); }
+.fan-questions li::marker {
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+.fan-warnings {
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+.fan-warnings summary {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.fan-warnings[open] summary { margin-bottom: var(--spacing-xs); }
+
+.fan-communities li,
+.fan-adaptations li {
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.fan-communities li:last-child,
+.fan-adaptations li:last-child { border-bottom: 0; }
+
+.fan-standout { margin-bottom: var(--spacing-sm); }
+.fan-author-name { margin-bottom: var(--spacing-xs); }
+.fan-archive-intro {
+  max-width: 52ch;
+  margin: 0 auto;
+  color: var(--text-secondary);
+}
+
+/* =========================================================
+   9. SPOILERS — hidden until the reader asks
+   ========================================================= */
+.fan-spoiler { display: inline; }
+.fan-spoiler-toggle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.fan-spoiler-toggle:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.fan-spoiler-content > p:last-child { margin-bottom: 0; }
+
+/* =========================================================
+   10. RESPONSIVE
+   ========================================================= */
+@media (max-width: 1023px) {
+  .fan-hero-inner { grid-template-columns: 200px 1fr; gap: var(--spacing-lg); }
+}
+@media (max-width: 767px) {
+  .fan-hero { padding-top: var(--spacing-xl); }
+  .fan-hero-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .fan-hero-cover { max-width: 200px; }
+  .fan-hero-quote {
+    text-align: left;
+    padding-left: var(--spacing-md);
+  }
+  .fan-hero-pitch { text-align: left; }
+  .fan-glance { justify-content: center; text-align: left; }
+  .fan-nav { top: 64px; }
+  /* Too many sections to wrap on a phone — scroll the strip instead. */
+  .fan-nav ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .fan-nav ul::-webkit-scrollbar { display: none; }
+  .fan-debate-sides { grid-template-columns: 1fr; }
+  .fan-section { padding: var(--spacing-xl) 0; }
+}
