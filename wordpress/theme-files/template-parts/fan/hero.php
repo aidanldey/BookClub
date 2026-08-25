@@ -92,6 +92,17 @@ $glance = array_filter( array(
 					<p class="fan-hero-pitch"><?php echo esc_html( $pitch ); ?></p>
 				<?php endif; ?>
 
+				<?php
+				// The Reading Room link, when the club hosts a free edition.
+				// Guarded so the fan page module still works without inc/reader.php.
+				if ( function_exists( 'blc_reader_book_for_fan_page' ) ) {
+					$library_book = blc_reader_book_for_fan_page();
+					if ( $library_book ) {
+						get_template_part( 'template-parts/fan/read-cta', null, array( 'book' => $library_book ) );
+					}
+				}
+				?>
+
 				<?php if ( $glance ) : ?>
 					<dl class="fan-glance">
 						<?php foreach ( $glance as $label => $value ) : ?>

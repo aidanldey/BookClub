@@ -14,14 +14,18 @@ research/
   SOURCING.md           attribution, privacy, and quoting rules
 scripts/
   validate_page.py      schema + link + editorial checks
+  check_library.py      rights + link checks for the Reading Room shelf
   preview_fan_page.php  render a page to static HTML, no WordPress needed
+  preview_reader.php    render the reader and the Reading Room, likewise
+  make_test_epub.py     build the fixture book the reader preview opens
 data/
   books.json            the 50 books queued for pages
   pages/<slug>.json     research output, one file per book
+  library.json          the public-domain shelf, with the rights basis for each
 wordpress/
   README.md             install + publishing guide
   theme-files/          drop-in templates for the BookLoversClub theme
-  preview/              design fixture and generated preview
+  preview/              design fixture and generated previews
 ```
 
 ## The workflow
@@ -143,6 +147,40 @@ The critical voice, the divisive character, and the live "overrated" argument
 are load-bearing.
 
 **Honest gaps.** Empty fields are fine. Invented ones poison the whole site.
+
+## The Reading Room
+
+Ten of the 50 books in the queue are out of copyright. Those the club can hand
+over outright rather than link to, so there's a second shelf: `/library/`, where
+a book opens in the browser at `/read/<slug>/`. A fan page whose slug matches a
+library book grows a "Read it free" button without anyone wiring it up.
+
+The reader is [foliate-js](https://github.com/johnfactotum/foliate-js) vendored
+into the theme — the EPUB is unzipped and laid out entirely client-side, so
+there's no conversion step and no third-party embed. It remembers where each
+reader stopped, and "link to this spot" copies a URL that opens on the same
+sentence, which is the thing a book club actually does with a book.
+
+`data/library.json` is the shelf plan: which edition, which translation, and the
+specific reason each one is in the public domain. That last field is the point —
+**a translation carries its own copyright**, so Dostoevsky is free but the
+translation most readers know is not.
+
+```bash
+python3 scripts/check_library.py --check-links
+```
+
+It fails the run on a book published after the US public-domain cutoff, a
+missing rights statement, or a dead link, and warns on the judgment calls — a
+translator with no rights basis, or a life-plus-70 country the "public domain"
+wording glosses over.
+
+Setup, the publishing steps, and how the reader behaves are in
+`wordpress/README.md`. Preview it without a WordPress install:
+
+```bash
+python3 scripts/make_test_epub.py && php scripts/preview_reader.php && php -S localhost:8000
+```
 
 ## Refresh
 

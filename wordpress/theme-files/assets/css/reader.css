@@ -1,0 +1,541 @@
+/**
+ * The reader and the Reading Room — components layered on the BookLoversClub
+ * identity system.
+ *
+ * Same rule as fan-page.css: every value resolves to a token from style.css, so
+ * the lamplight dark mode, the spacing rhythm, and the type scale all follow the
+ * parent theme. Nothing here redefines a token.
+ *
+ * The book itself is rendered inside an iframe by foliate-js and cannot be
+ * reached from this file — its typography is injected by assets/js/reader.js,
+ * which reads the same tokens at runtime.
+ */
+
+/* =========================================================
+   1. THE READER PAGE — header and provenance
+   ========================================================= */
+.blc-read-header {
+  padding: var(--spacing-lg) 0 var(--spacing-md);
+}
+.blc-read-title {
+  font-size: clamp(28px, 4vw, 40px);
+  margin-bottom: var(--spacing-xs);
+}
+.blc-read-byline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+.blc-read-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.blc-read-notice {
+  padding: var(--spacing-lg) 0;
+  color: var(--text-secondary);
+}
+
+/* =========================================================
+   2. THE READER
+   ========================================================= */
+.blc-reader {
+  --blc-reader-height: min(78vh, 880px);
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: var(--blc-reader-height);
+  max-width: 1100px;
+  margin: 0 auto var(--spacing-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* Modern viewport units keep the mobile toolbar from cropping the last line. */
+@supports (height: 100svh) {
+  .blc-reader { --blc-reader-height: min(78svh, 880px); }
+}
+
+[data-theme="dark"] .blc-reader { box-shadow: none; }
+
+/* ---- Top bar ---- */
+.blc-reader-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+}
+.blc-reader-bar-group {
+  display: flex;
+  gap: var(--spacing-xs);
+  flex: 0 0 auto;
+}
+.blc-reader-running-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Tool buttons: quiet until you want them ---- */
+.blc-reader-tool {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+}
+.blc-reader-tool:hover,
+.blc-reader-tool[aria-expanded="true"],
+.blc-reader-tool[aria-pressed="true"] {
+  color: var(--text);
+  background: var(--bg-subtle);
+  border-color: var(--border-subtle);
+}
+
+/* ---- Panels: contents and text settings ---- */
+.blc-reader-panel {
+  position: absolute;
+  top: 46px;
+  left: var(--spacing-sm);
+  z-index: 3;
+  width: min(340px, calc(100% - var(--spacing-md)));
+  max-height: calc(100% - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+.blc-reader-panel[hidden] { display: none; }
+.blc-reader-panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+.blc-reader-panel-head h2 {
+  font-size: 16px;
+  margin: 0;
+}
+.blc-reader-panel-close {
+  background: none;
+  border: 0;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 0 4px;
+}
+.blc-reader-panel-close:hover { color: var(--text); }
+
+/* ---- Contents ---- */
+.blc-toc-list,
+.blc-toc-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.blc-toc-sublist {
+  padding-left: var(--spacing-sm);
+  border-left: 1px solid var(--border-subtle);
+  margin-left: 2px;
+}
+.blc-toc-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 7px 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.blc-toc-link:hover { color: var(--text); background: var(--bg-subtle); }
+.blc-toc-link:disabled { cursor: default; opacity: 0.6; }
+.blc-toc-link.is-current {
+  color: var(--text);
+  font-weight: 500;
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+/* ---- Text settings ---- */
+.blc-reader-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: 6px 0;
+}
+.blc-reader-setting-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.blc-reader-setting-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.blc-reader-chip {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+}
+.blc-reader-chip:hover { color: var(--text); }
+.blc-reader-chip[aria-pressed="true"] {
+  color: var(--text);
+  background: var(--bg-card);
+  border-color: var(--accent);
+}
+.blc-reader-fontsize-value {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-width: 44px;
+  text-align: center;
+}
+
+/* ---- Stage: the book, flanked by page turns ---- */
+.blc-reader-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px 1fr 56px;
+  min-height: 0;
+}
+.blc-reader-viewport {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+.blc-reader-viewport foliate-view {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.blc-reader-page-button {
+  background: none;
+  border: 0;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+.blc-reader-page-button:hover {
+  color: var(--text);
+  background: var(--bg-subtle);
+}
+/* Scrolling flows continuously; page turns would be lying about the model. */
+.blc-reader[data-flow="scrolled"] .blc-reader-page-button { visibility: hidden; }
+
+/* ---- Loading and failure ---- */
+.blc-reader-loading,
+.blc-reader-error {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  text-align: center;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+}
+.blc-reader.is-loading .blc-reader-loading { display: flex; }
+.blc-reader.has-error .blc-reader-error { display: flex; }
+.blc-reader.has-error .blc-reader-loading { display: none; }
+
+.blc-reader-loading-track {
+  width: min(280px, 60%);
+  height: 2px;
+  background: var(--bg-subtle);
+  overflow: hidden;
+}
+.blc-reader-loading-bar {
+  width: 0;
+  height: 100%;
+  background: var(--accent);
+  transition: width var(--transition-fast);
+}
+.blc-reader-error-detail {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ---- Foot: position ---- */
+.blc-reader-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-sm);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+}
+.blc-reader-slider-label { display: block; }
+/* The default range control is a heavy black rail; this is a reading
+   progress line that happens to be draggable. */
+.blc-reader-slider {
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+.blc-reader-slider::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bg-subtle);
+}
+.blc-reader-slider::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--bg-subtle);
+}
+.blc-reader-slider::-moz-range-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.blc-reader-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 0;
+}
+.blc-reader-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 0;
+}
+.blc-reader-slider:focus-visible { outline-offset: 4px; }
+.blc-reader-status {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+}
+.blc-reader-chapter {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+.blc-reader-percent { flex: 0 0 auto; }
+.blc-reader-share { flex: 0 0 auto; padding: 4px 8px; }
+
+/* ---- Focus mode ---- */
+.blc-reader:fullscreen {
+  height: 100vh;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--bg);
+}
+.blc-reader:fullscreen .blc-reader-bar,
+.blc-reader:fullscreen .blc-reader-foot { background: var(--bg); }
+/* Fallback for browsers that refuse fullscreen (iOS Safari). */
+.blc-reader.is-focus {
+  --blc-reader-height: min(94vh, 1200px);
+  max-width: none;
+}
+
+/* =========================================================
+   3. THE READING ROOM
+   ========================================================= */
+.blc-library-note {
+  margin: var(--spacing-2xl) auto var(--spacing-xl);
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+.card-library .blc-card-actions {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-sm);
+}
+.blc-read-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.blc-card-secondary {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.blc-progress-readout {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-bottom: var(--spacing-xs);
+}
+.blc-progress-track {
+  height: 2px;
+  margin: var(--spacing-xs) 0;
+  background: var(--bg-subtle);
+  overflow: hidden;
+}
+.blc-progress-fill {
+  width: 0;
+  height: 100%;
+  background: var(--accent);
+}
+
+/* =========================================================
+   4. THE FAN PAGE CALL TO ACTION
+   ========================================================= */
+.fan-read-cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0 var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--bg-subtle);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+}
+.blc-read-cta-button { flex: 0 0 auto; }
+/* The theme underlines links on hover; this one is already a button. */
+.blc-read-cta-button:hover { background-image: none; }
+.fan-read-cta-note {
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  align-items: baseline;
+}
+
+/* =========================================================
+   5. ABOUT THIS EDITION
+   ========================================================= */
+.blc-read-about {
+  padding-bottom: var(--spacing-2xl);
+}
+.blc-read-about h2 { font-size: 20px; }
+.blc-read-glance { margin-bottom: var(--spacing-md); }
+.blc-read-download { font-size: 14px; }
+.blc-read-filesize,
+.blc-read-download-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+}
+.blc-read-download-note { display: block; margin-top: 4px; }
+
+/* =========================================================
+   6. NARROW SCREENS
+   ========================================================= */
+@media (max-width: 768px) {
+  .blc-reader {
+    --blc-reader-height: min(84vh, 900px);
+    margin-left: calc(var(--spacing-sm) * -1);
+    margin-right: calc(var(--spacing-sm) * -1);
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+  @supports (height: 100svh) {
+    .blc-reader { --blc-reader-height: min(84svh, 900px); }
+  }
+
+  .blc-reader-stage { grid-template-columns: 28px 1fr 28px; }
+  .blc-reader-page-button { font-size: 22px; }
+
+  .blc-reader-panel {
+    left: 0;
+    right: 0;
+    width: auto;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    max-height: calc(100% - 60px);
+  }
+  .blc-reader-running-title { display: none; }
+}
+
+/* Thumbs, not arrows: on a touch screen the whole width is the book and the
+   page turns come from swiping, which foliate-js handles itself. */
+@media (max-width: 768px) and (pointer: coarse) {
+  .blc-reader-stage { grid-template-columns: 1fr; }
+  .blc-reader-page-button { display: none; }
+}
+
+/* =========================================================
+   7. MOTION AND PRINT
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .blc-reader-tool,
+  .blc-reader-chip,
+  .blc-reader-page-button,
+  .blc-reader-loading-bar { transition: none; }
+}
+
+@media print {
+  /* The book is in an iframe and will not print usefully; send them the file. */
+  .blc-reader { display: none; }
+}
