@@ -1,5 +1,5 @@
 {
-  "_readme": "The Reading Room shelf: public-domain editions the club hosts and serves in the browser. Nothing in copyright belongs here — an un-DRM'd EPUB is downloadable by anyone who opens the reader. source_url and epub_url are deliberately null until a human has fetched the edition and confirmed the link resolves; scripts/check_library.py verifies them. Never paste a permalink you have not opened.",
+  "_readme": "The Reading Room shelf: public-domain editions the club hosts and serves in the browser. Nothing in copyright belongs here — an un-DRM'd EPUB is downloadable by anyone who opens the reader. shelf_file is the filename as it sits in /shelf/ on the site; source_url and epub_url stay null until a human has fetched the edition and confirmed the link resolves. scripts/check_library.py verifies them. Never paste a permalink you have not opened.",
   "sources": {
     "standard-ebooks": {
       "name": "Standard Ebooks",
@@ -18,6 +18,7 @@
     "Published before 1931 clears US copyright, which is the test that matters for a US-hosted site. Say so in the rights field rather than implying worldwide public domain.",
     "A translation carries its own copyright. Dostoevsky is public domain; a 1990s translation of him is not. Only host translations old enough to have expired — Constance Garnett, Isabel Hapgood, Samuel Butler — and name the translator on the page.",
     "The fan page and the library book share a slug. That is what makes the 'Read it free' button appear on the fan page without anyone wiring it up by hand.",
+    "Drop the file in /shelf/ and name it after the slug — or leave the Standard Ebooks name, which ends in the slug — and the library book picks it up on save without anyone typing a path.",
     "Fill source_url and epub_url only after opening them, then run scripts/check_library.py."
   ],
   "books": [
@@ -31,10 +32,11 @@
       "rights_basis": "Published 1818; the author died in 1851.",
       "fan_page_slug": "frankenstein",
       "source": "standard-ebooks",
-      "source_url": null,
+      "source_url": "https://standardebooks.org/ebooks/mary-shelley/frankenstein",
+      "shelf_file": "mary-shelley_frankenstein.epub",
       "epub_url": null,
       "status": "not-uploaded",
-      "note": "The 1818 text and the 1831 revision are different books; say which one the edition is."
+      "note": "The 1818 text and the 1831 revision are different books; say which one the edition is. The download link on the source page is https://standardebooks.org/ebooks/mary-shelley/frankenstein/downloads/mary-shelley_frankenstein.epub — save the file itself, not the 'Your Download Has Started' page the browser lands on first."
     },
     {
       "slug": "pride-and-prejudice",
@@ -47,6 +49,7 @@
       "fan_page_slug": "pride-and-prejudice",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -62,6 +65,7 @@
       "fan_page_slug": "jane-eyre",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -77,6 +81,7 @@
       "fan_page_slug": "moby-dick",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "Long. Worth checking how the reader handles it on a phone before publishing — it is the stress test of the shelf."
@@ -92,6 +97,7 @@
       "fan_page_slug": "the-picture-of-dorian-gray",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "The 1890 magazine version and the 1891 book differ by six chapters. Name the one you host."
@@ -107,6 +113,7 @@
       "fan_page_slug": "the-great-gatsby",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "The first of the shelf's US-only entries. The rights line on the page should say 'in the United States', not 'public domain'."
@@ -122,6 +129,7 @@
       "fan_page_slug": "crime-and-punishment",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "Name the translator on the page. Readers who know the book will want to know which one they are getting, and the fan page's reader voices are mostly quoting a different translation."
@@ -137,6 +145,7 @@
       "fan_page_slug": "the-brothers-karamazov",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -152,6 +161,7 @@
       "fan_page_slug": "the-count-of-monte-cristo",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "Some free editions are abridged. Check the chapter count before publishing — an abridgement passed off as the novel is worse than no edition."
@@ -167,6 +177,7 @@
       "fan_page_slug": "les-miserables",
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "The largest file on the shelf. Worth watching the load time on a phone."
@@ -182,6 +193,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "No fan page yet. Epistolary structure makes it a good club read and a good test of a table of contents with many short sections."
@@ -197,6 +209,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -212,6 +225,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -227,6 +241,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -242,6 +257,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "Twelve stories, so a natural one to read a chapter at a time — the reader remembers where the club got to."
@@ -257,6 +273,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "Short — a good first book for the shelf, and a good one to test on a phone in a single sitting."
@@ -272,6 +289,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -287,6 +305,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -302,6 +321,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": null
@@ -317,6 +337,7 @@
       "fan_page_slug": null,
       "source": "standard-ebooks",
       "source_url": null,
+      "shelf_file": null,
       "epub_url": null,
       "status": "not-uploaded",
       "note": "Name the translator prominently. A reader arriving from a conversation about the Wilson translation will otherwise think they are getting it."

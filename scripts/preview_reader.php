@@ -19,8 +19,13 @@
 define( 'BLC_THEME_FILES', __DIR__ . '/../wordpress/theme-files' );
 define( 'BLC_PREVIEW_DIR', __DIR__ . '/../wordpress/preview' );
 define( 'BLC_VERSION', 'preview' );
+// WordPress always has this; inc/reader.php reads it for the default shelf
+// location, which the filters below then override.
+define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 
-$epub = isset( $argv[1] ) ? $argv[1] : 'test-book.epub';
+// The preview serves its own shelf out of wordpress/preview/shelf/, the same
+// way the live site serves /shelf/ from the web root.
+define( 'BLC_PREVIEW_SHELF', BLC_PREVIEW_DIR . '/shelf' );
 
 /* -------------------------------------------------------------------------
  * The shelf under preview. Three books, one of them fileless, so the archive
@@ -33,7 +38,8 @@ $GLOBALS['blc_books'] = array(
 		'post_name'  => 'test-book',
 		'excerpt'    => 'A fixture: five chapters, a nested contents tree, and enough prose to paginate.',
 		'meta'       => array(
-			'_blc_epub_url'      => $epub,
+			'_blc_epub_file'     => 'test-book.epub',
+			'_blc_epub_url'      => '',
 			'_blc_epub_id'       => 0,
 			'_blc_book_author'   => 'BookLoversClub',
 			'_blc_translator'    => '',
@@ -49,7 +55,8 @@ $GLOBALS['blc_books'] = array(
 		'post_name'  => 'frankenstein',
 		'excerpt'    => 'The 1818 text. Public domain everywhere.',
 		'meta'       => array(
-			'_blc_epub_url'      => 'frankenstein.epub',
+			'_blc_epub_file'     => 'mary-shelley_frankenstein.epub',
+			'_blc_epub_url'      => '',
 			'_blc_epub_id'       => 0,
 			'_blc_book_author'   => 'Mary Shelley',
 			'_blc_translator'    => '',
@@ -65,6 +72,7 @@ $GLOBALS['blc_books'] = array(
 		'post_name'  => 'crime-and-punishment',
 		'excerpt'    => 'Constance Garnett’s translation — the edition whose copyright has expired.',
 		'meta'       => array(
+			'_blc_epub_file'     => '',
 			'_blc_epub_url'      => '',
 			'_blc_epub_id'       => 0,
 			'_blc_book_author'   => 'Fyodor Dostoevsky',
@@ -104,8 +112,26 @@ function size_format( $bytes, $decimals = 0 ) {
 	return round( $bytes / pow( 1024, $i ), $decimals ) . ' ' . $units[ $i ];
 }
 
+function trailingslashit( $string ) { return rtrim( $string, '/\\' ) . '/'; }
+function home_url( $path = '' ) { return ltrim( (string) $path, '/' ); }
+
+/* Real enough to relocate the shelf the way a live site would. */
+$GLOBALS['blc_filters'] = array();
+function add_filter( $tag, $callback = null, $priority = 10, $accepted = 1 ) {
+	if ( is_callable( $callback ) ) {
+		$GLOBALS['blc_filters'][ $tag ][] = $callback;
+	}
+}
+function apply_filters( $tag, $value ) {
+	foreach ( isset( $GLOBALS['blc_filters'][ $tag ] ) ? $GLOBALS['blc_filters'][ $tag ] : array() as $callback ) {
+		$value = call_user_func( $callback, $value );
+	}
+	return $value;
+}
+function sanitize_title( $title ) { return strtolower( trim( preg_replace( '/[^A-Za-z0-9-]+/', '-', (string) $title ), '-' ) ); }
+function _x( $text, $context, $domain = null ) { return $text; }
+
 function add_action() {}
-function add_filter() {}
 function add_meta_box() {}
 function register_post_type() {}
 function register_taxonomy_for_object_type() {}
@@ -175,7 +201,7 @@ function get_permalink( $post = null ) {
 	}
 	$id   = is_object( $post ) ? $post->ID : ( $post ? $post : get_the_ID() );
 	$book = blc_preview_find( $id );
-	return $book ? 'reader.html' : '#';
+	return $book ? 'reader-' . $book['post_name'] . '.html' : '#';
 }
 
 function wp_get_attachment_url( $id ) { return false; }
@@ -261,9 +287,8 @@ HTML;
 }
 
 function get_footer() {
-	$module = 'reader.html' === $GLOBALS['blc_out'] ? '../theme-files/assets/js/reader.js' : '';
-	$script = $module
-		? "<script type=\"module\" src=\"{$module}\"></script>"
+	$script = 0 === strpos( $GLOBALS['blc_out'], 'reader' )
+		? '<script type="module" src="../theme-files/assets/js/reader.js"></script>'
 		: '<script src="../theme-files/assets/js/library.js"></script>';
 	echo <<<HTML
 </main>
@@ -288,6 +313,11 @@ HTML;
  * ---------------------------------------------------------------------- */
 require BLC_THEME_FILES . '/inc/reader.php';
 
+// The preview's shelf sits next to the generated HTML — the same two filters a
+// live site would use to move its shelf somewhere other than the web root.
+add_filter( 'blc_reader_shelf_path', function () { return BLC_PREVIEW_SHELF; } );
+add_filter( 'blc_reader_shelf_url', function () { return 'shelf'; } );
+
 /**
  * Render one template over a queue of posts.
  */
@@ -305,16 +335,19 @@ function blc_preview_render( $template, $queue, $out ) {
 	printf( "wrote %s (%d KB)\n", $path, (int) round( strlen( $html ) / 1024 ) );
 }
 
-// The reader, on the fixture book.
+// One reader page per book, plus reader.html as the documented entry point.
+foreach ( $GLOBALS['blc_books'] as $book ) {
+	blc_preview_render( 'single-library_book.php', array( $book ), 'reader-' . $book['post_name'] . '.html' );
+}
 blc_preview_render( 'single-library_book.php', array( $GLOBALS['blc_books'][0] ), 'reader.html' );
 
 // The Reading Room, on the books that have a file — the same rule
 // blc_reader_archive_query() applies to the real archive.
 $shelf = array_values( array_filter( $GLOBALS['blc_books'], function ( $book ) {
-	return '' !== $book['meta']['_blc_epub_url'];
+	return '' !== $book['meta']['_blc_epub_file'] || '' !== $book['meta']['_blc_epub_url'];
 } ) );
 blc_preview_render( 'archive-library_book.php', $shelf, 'library.html' );
 
-if ( ! file_exists( BLC_PREVIEW_DIR . '/test-book.epub' ) ) {
-	fwrite( STDERR, "\nNo test-book.epub yet — run: python3 scripts/make_test_epub.py\n" );
+if ( ! file_exists( BLC_PREVIEW_SHELF . '/test-book.epub' ) ) {
+	fwrite( STDERR, "\nNo test-book.epub on the preview shelf — run: python3 scripts/make_test_epub.py\n" );
 }

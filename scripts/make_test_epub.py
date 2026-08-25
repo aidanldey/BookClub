@@ -9,8 +9,8 @@ this file, so there is nothing to attribute and nothing to license.
 
     python3 scripts/make_test_epub.py [out.epub]
 
-Defaults to wordpress/preview/test-book.epub, which is what
-scripts/preview_reader.php looks for.
+Defaults to wordpress/preview/shelf/test-book.epub — the preview's own shelf
+directory, standing in for /shelf/ on the live site.
 """
 
 import sys
@@ -194,6 +194,6 @@ def build(out_path):
 
 
 if __name__ == "__main__":
-    target = Path(sys.argv[1] if len(sys.argv) > 1 else "wordpress/preview/test-book.epub")
+    target = Path(sys.argv[1] if len(sys.argv) > 1 else "wordpress/preview/shelf/test-book.epub")
     written = build(target)
     print(f"wrote {written} ({written.stat().st_size / 1024:.1f} KB, {len(CHAPTERS)} chapters)")

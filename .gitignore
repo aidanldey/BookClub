@@ -6,7 +6,9 @@ wordpress/preview/preview.html
 
 # Generated preview output — rebuild with scripts/preview_reader.php
 wordpress/preview/reader.html
+wordpress/preview/reader-*.html
 wordpress/preview/library.html
 
-# Test fixture — rebuild with scripts/make_test_epub.py
-wordpress/preview/test-book.epub
+# The preview's stand-in for the site's /shelf/ — EPUB files, none of them ours
+# to redistribute. Rebuild the fixture with scripts/make_test_epub.py
+wordpress/preview/shelf/

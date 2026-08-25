@@ -33,8 +33,10 @@ US_PUBLIC_DOMAIN_BEFORE = 1931
 
 REQUIRED = (
     "slug", "title", "author", "translator", "year_published", "rights",
-    "rights_basis", "fan_page_slug", "source", "source_url", "epub_url", "status",
+    "rights_basis", "fan_page_slug", "source", "source_url", "shelf_file",
+    "epub_url", "status",
 )
+SHELF_FILE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9 ._-]*\.epub$")
 STATUSES = ("not-uploaded", "uploaded", "published")
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
@@ -114,8 +116,28 @@ def check_structure(doc, fan_slugs):
                 "'Read it free' button needs pinning by hand in wp-admin."
             )
 
-        if book.get("status") != "not-uploaded" and not book.get("epub_url"):
-            errors.append(f"{where}: status is '{book.get('status')}' but epub_url is empty")
+        # Mirrors blc_reader_sanitize_shelf_file(): a bare .epub filename, never
+        # a path. Anything else would be dropped by the theme on save.
+        shelf_file = book.get("shelf_file")
+        if shelf_file and not SHELF_FILE.match(shelf_file):
+            errors.append(
+                f"{where}: shelf_file '{shelf_file}' is not a plain .epub filename — "
+                "it names a file in /shelf/, not a path or a URL"
+            )
+
+        if book.get("status") != "not-uploaded" and not (shelf_file or book.get("epub_url")):
+            errors.append(
+                f"{where}: status is '{book.get('status')}' but neither shelf_file nor "
+                "epub_url says where the file is"
+            )
+
+        if shelf_file and slug:
+            stem = shelf_file[: -len(".epub")].lower()
+            if stem != slug and not stem.endswith(("_" + slug, "-" + slug)):
+                warnings.append(
+                    f"{where}: shelf_file '{shelf_file}' doesn't end in the slug, so the "
+                    "theme won't adopt it automatically — name it in wp-admin."
+                )
 
     return errors, warnings
 
@@ -162,7 +184,7 @@ def main():
     errors, warnings = check_structure(doc, fan_slugs)
 
     books = doc.get("books", [])
-    unfiled = [b["slug"] for b in books if not b.get("epub_url")]
+    unfiled = [b["slug"] for b in books if not (b.get("shelf_file") or b.get("epub_url"))]
 
     if args.check_links:
         dead, unverified, total = check_links(doc)

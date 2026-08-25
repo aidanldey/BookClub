@@ -41,8 +41,8 @@ preview/
   sample-cover.svg                 placeholder cover
   theme-style.css                  copy of the theme stylesheet, for previewing only
   preview.html                     generated — open it in a browser
-  reader.html, library.html        generated — serve them, don't open off disk
-  test-book.epub                   generated fixture for the reader
+  reader*.html, library.html       generated — serve them, don't open off disk
+  shelf/                           stands in for the site's /shelf/, not committed
 ```
 
 ## Install
@@ -103,6 +103,57 @@ Spoilers are hidden behind a click on every field the schema marks
 `spoiler: true`, plus character `signature_moment`, which is plot by
 definition. With JavaScript off, spoilers stay hidden.
 
+## The shelf
+
+The club keeps its own copies of each edition in a plain folder at the web root:
+
+```
+bookloversclub.com/shelf/
+  mary-shelley_frankenstein.epub
+  jane-austen_pride-and-prejudice.epub
+  ...
+```
+
+Adding a book is dropping a file in over SFTP — no media library, no upload
+form, no attachment IDs. The reader fetches straight from `/shelf/`, which is
+same-origin, so there is no CORS to arrange.
+
+**Naming.** A file whose name ends in the book's slug is adopted automatically
+when the library book is saved with its file fields empty. Standard Ebooks names
+its downloads `<author>_<title>.epub`, so `mary-shelley_frankenstein.epub` is
+picked up by the book with the slug `frankenstein` without anyone typing
+anything. `frankenstein.epub` works too. Two files ending in the same slug is
+treated as a question rather than a guess: neither is adopted, and you pick one
+in wp-admin, where the *Shelf file* field offers what's actually in the folder.
+
+**Where a file can come from**, in the order the reader tries them:
+
+| Field | Use it for |
+|---|---|
+| Shelf file | the normal case — a filename in `/shelf/` |
+| EPUB attachment ID | a file already in the media library |
+| EPUB URL | anything else, same-origin |
+
+**Moving the shelf.** Two filters, and they must agree:
+
+```php
+add_filter( 'blc_reader_shelf_url',  fn() => content_url( 'shelf' ) );
+add_filter( 'blc_reader_shelf_path', fn() => WP_CONTENT_DIR . '/shelf' );
+```
+
+**On the server.** Serve `.epub` as `application/epub+zip`, and turn directory
+listing off so the folder isn't a browsable index of the whole shelf:
+
+```apache
+# shelf/.htaccess
+AddType application/epub+zip .epub
+Options -Indexes
+```
+
+Only a plain filename is ever accepted from an editor — the theme takes the
+`basename()` and requires a `.epub` extension, so nothing typed into that field
+can reach outside the folder.
+
 ## Publishing a book to the Reading Room
 
 **Public domain only.** An EPUB served over HTTP is a file anyone who opens the
@@ -124,13 +175,16 @@ the ones a script can.
    the translator on the page, because a reader arriving from a conversation
    about a modern translation will assume that is what they are getting.
 
-3. **Upload the .epub** under Media. The theme allows the file type and fixes
-   the mime check WordPress would otherwise fail it on. Note the attachment ID.
+3. **Put the file on the shelf** — `/shelf/` at the web root, keeping the name
+   it came with. (Or upload it under Media, if you'd rather; the theme allows
+   the file type and fixes the mime check WordPress would otherwise fail it on.)
 
-4. **Reading Room → Add New.** Title is the book title. Set the Featured Image
-   to the cover. Fill in *The Edition*: the attachment ID, author, translator,
-   year, a rights statement (**required** — it renders on the page), and the
-   source with its URL.
+4. **Reading Room → Add New.** Title is the book title, and the slug should
+   match the fan page. Set the Featured Image to the cover. Fill in *The
+   Edition*: author, translator, year, a rights statement (**required** — it
+   renders on the page), and the source with its URL. Leave the file fields
+   blank and save: a shelf file whose name ends in the slug is adopted for you,
+   and the box then shows what it's serving and from where.
 
 5. **Match the slug to the fan page.** A library book whose slug matches a fan
    page's slug puts a "Read it free" button on that fan page automatically. If
@@ -190,8 +244,8 @@ The reader has its own harness. It can't be a single self-contained file — the
 reader is an ES module that fetches an EPUB, so both need a real server:
 
 ```bash
-python3 scripts/make_test_epub.py     # build the fixture book
-php scripts/preview_reader.php        # render reader.html and library.html
+python3 scripts/make_test_epub.py     # fixture book -> preview/shelf/
+php scripts/preview_reader.php        # render the reader and the Reading Room
 php -S localhost:8000                 # from the repo root
 ```
 
@@ -199,7 +253,13 @@ Then open <http://localhost:8000/wordpress/preview/reader.html>. The fixture is
 five chapters with a nested contents tree, written for the purpose — long enough
 to paginate, and shaped to catch the layout bugs that only appear on the seam
 between two pages. `library.html` is the Reading Room over three fixture books,
-one of them deliberately fileless.
+one of them deliberately fileless, and each card opens its own reader page.
+
+`preview/shelf/` stands in for the site's `/shelf/`, wired up through the same
+two filters a live site would use. Drop a real EPUB in there, name it after one
+of the fixture slugs, and it opens in the preview — which is the quickest way to
+check an edition renders before it goes near the site. Nothing in that folder is
+committed.
 
 Keep `preview/theme-style.css` in sync if you change the theme's `style.css`;
 it exists only so the preview has the parent theme's tokens.

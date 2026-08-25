@@ -161,10 +161,15 @@ there's no conversion step and no third-party embed. It remembers where each
 reader stopped, and "link to this spot" copies a URL that opens on the same
 sentence, which is the thing a book club actually does with a book.
 
-`data/library.json` is the shelf plan: which edition, which translation, and the
-specific reason each one is in the public domain. That last field is the point —
-**a translation carries its own copyright**, so Dostoevsky is free but the
-translation most readers know is not.
+Books live in a plain `/shelf/` folder at the web root, not the media library —
+adding one is dropping a file in over SFTP. A file whose name ends in the book's
+slug is adopted automatically, which means a Standard Ebooks download called
+`mary-shelley_frankenstein.epub` needs no configuration at all.
+
+`data/library.json` is the shelf plan: which edition, which translation, which
+filename, and the specific reason each one is in the public domain. That last
+field is the point — **a translation carries its own copyright**, so Dostoevsky
+is free but the translation most readers know is not.
 
 ```bash
 python3 scripts/check_library.py --check-links

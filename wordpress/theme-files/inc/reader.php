@@ -81,16 +81,138 @@ function blc_reader_check_filetype( $data, $file, $filename, $mimes, $real_mime 
 add_filter( 'wp_check_filetype_and_ext', 'blc_reader_check_filetype', 10, 5 );
 
 /* -------------------------------------------------------------------------
- * 3. Data layer
+ * 3. The shelf — /shelf/ on the site root
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Public URL of the shelf directory, with a trailing slash.
+ *
+ * The club keeps its own copies of each edition in a plain folder at the site
+ * root, outside the media library, so a book can be added by dropping a file in
+ * over SFTP. Filter `blc_reader_shelf_url` (and `blc_reader_shelf_path` with
+ * it) to put the shelf somewhere else.
+ *
+ * @return string
+ */
+function blc_reader_shelf_url() {
+	return trailingslashit( apply_filters( 'blc_reader_shelf_url', home_url( '/shelf' ) ) );
+}
+
+/**
+ * Filesystem path of the shelf directory, with a trailing slash.
+ *
+ * Used to list what's available and to read file sizes. The reader itself only
+ * ever needs the URL, so a shelf served from somewhere unreadable still works —
+ * it just can't show a size or offer the filename list in wp-admin.
+ *
+ * @return string
+ */
+function blc_reader_shelf_path() {
+	return trailingslashit( apply_filters( 'blc_reader_shelf_path', ABSPATH . 'shelf' ) );
+}
+
+/**
+ * Reduce an editor's input to a bare EPUB filename, or nothing.
+ *
+ * Only a filename is ever accepted: basename() drops any path an editor pasted
+ * (or tried to), and the pattern refuses anything that isn't a plain .epub.
+ * Directory traversal can't survive either step.
+ *
+ * @param string $raw Whatever was typed or stored.
+ * @return string Safe filename, or '' when it isn't one.
+ */
+function blc_reader_sanitize_shelf_file( $raw ) {
+	$file = basename( trim( wp_unslash( (string) $raw ) ) );
+	$file = str_replace( chr( 0 ), '', $file );
+
+	if ( ! preg_match( '/^[A-Za-z0-9][A-Za-z0-9 ._-]*\.epub$/i', $file ) ) {
+		return '';
+	}
+	return $file;
+}
+
+/**
+ * URL for a file on the shelf.
+ *
+ * @param string $file Filename, sanitized or not.
+ * @return string Empty when the name isn't a usable EPUB filename.
+ */
+function blc_reader_shelf_file_url( $file ) {
+	$file = blc_reader_sanitize_shelf_file( $file );
+	return $file ? blc_reader_shelf_url() . rawurlencode( $file ) : '';
+}
+
+/**
+ * Every EPUB currently sitting on the shelf.
+ *
+ * @return string[] Filenames, sorted. Empty when the directory can't be read.
+ */
+function blc_reader_shelf_files() {
+	static $files = null;
+	if ( null !== $files ) {
+		return $files;
+	}
+
+	$found = glob( blc_reader_shelf_path() . '*.epub' );
+	$files = $found ? array_values( array_filter( array_map( function ( $path ) {
+		return blc_reader_sanitize_shelf_file( basename( $path ) );
+	}, $found ) ) ) : array();
+
+	sort( $files );
+	return $files;
+}
+
+/**
+ * The shelf file that belongs to a slug, when there is exactly one.
+ *
+ * Standard Ebooks names its downloads `<author>_<title>.epub`, so the file for
+ * `frankenstein` arrives called `mary-shelley_frankenstein.epub`. An exact
+ * `<slug>.epub` wins; otherwise a file whose name ends in the slug counts, but
+ * only if it is the only one — two candidates is a question for a human, not a
+ * guess.
+ *
+ * @param string $slug Post slug.
+ * @return string Filename, or '' when there is no unambiguous match.
+ */
+function blc_reader_shelf_file_for_slug( $slug ) {
+	$slug = sanitize_title( $slug );
+	if ( ! $slug ) {
+		return '';
+	}
+
+	$files = blc_reader_shelf_files();
+	if ( in_array( $slug . '.epub', $files, true ) ) {
+		return $slug . '.epub';
+	}
+
+	$matches = array();
+	foreach ( $files as $file ) {
+		$stem = strtolower( preg_replace( '/\.epub$/i', '', $file ) );
+		if ( preg_match( '/(^|[_-])' . preg_quote( $slug, '/' ) . '$/', $stem ) ) {
+			$matches[] = $file;
+		}
+	}
+
+	return 1 === count( $matches ) ? $matches[0] : '';
+}
+
+/* -------------------------------------------------------------------------
+ * 4. Data layer
  * ---------------------------------------------------------------------- */
 
 /**
  * Everything the templates need to know about one library book.
  *
  * @param int|null $post_id Post ID, or null for the current post.
+ * The file can come from three places, in this order: the media library, the
+ * shelf directory, or a URL typed in by hand. Whichever answers first wins, and
+ * `epub_from` says which one did.
+ *
  * @return array {
  *     @type string $epub_url    URL of the EPUB, '' when unset.
- *     @type int    $epub_id     Attachment ID, 0 for an external URL.
+ *     @type int    $epub_id     Attachment ID, 0 unless it came from the media library.
+ *     @type string $epub_file   Shelf filename, '' unless it came from the shelf.
+ *     @type string $epub_from   'media', 'shelf', 'url', or '' when there is no file.
  *     @type int    $epub_size   File size in bytes, 0 when unknown.
  *     @type string $author      Author, for the byline.
  *     @type string $translator  Translator, when the edition has one.
@@ -103,14 +225,17 @@ add_filter( 'wp_check_filetype_and_ext', 'blc_reader_check_filetype', 10, 5 );
 function blc_reader_meta( $post_id = null ) {
 	$post_id = $post_id ? (int) $post_id : (int) get_the_ID();
 
-	$epub_id  = (int) get_post_meta( $post_id, '_blc_epub_id', true );
-	$epub_url = (string) get_post_meta( $post_id, '_blc_epub_url', true );
-	$size     = 0;
+	$epub_id   = (int) get_post_meta( $post_id, '_blc_epub_id', true );
+	$epub_file = blc_reader_sanitize_shelf_file( get_post_meta( $post_id, '_blc_epub_file', true ) );
+	$epub_url  = (string) get_post_meta( $post_id, '_blc_epub_url', true );
+	$from      = '';
+	$size      = 0;
 
 	if ( $epub_id ) {
 		$attached = wp_get_attachment_url( $epub_id );
 		if ( $attached ) {
 			$epub_url = $attached;
+			$from     = 'media';
 			$path     = get_attached_file( $epub_id );
 			if ( $path && file_exists( $path ) ) {
 				$size = (int) filesize( $path );
@@ -121,9 +246,26 @@ function blc_reader_meta( $post_id = null ) {
 		}
 	}
 
+	if ( ! $from && $epub_file ) {
+		$epub_url = blc_reader_shelf_file_url( $epub_file );
+		$from     = 'shelf';
+		$path     = blc_reader_shelf_path() . $epub_file;
+		// The shelf may be served from somewhere this process can't read; that
+		// costs a file size in wp-admin and nothing else.
+		if ( is_readable( $path ) ) {
+			$size = (int) filesize( $path );
+		}
+	}
+
+	if ( ! $from && $epub_url ) {
+		$from = 'url';
+	}
+
 	return array(
 		'epub_url'    => $epub_url,
 		'epub_id'     => $epub_id,
+		'epub_file'   => $from === 'shelf' ? $epub_file : '',
+		'epub_from'   => $from,
 		'epub_size'   => $size,
 		'author'      => (string) get_post_meta( $post_id, '_blc_book_author', true ),
 		'translator'  => (string) get_post_meta( $post_id, '_blc_translator', true ),
@@ -279,7 +421,7 @@ function blc_reader_filesize( $bytes ) {
 }
 
 /* -------------------------------------------------------------------------
- * 4. Admin
+ * 5. Admin
  * ---------------------------------------------------------------------- */
 function blc_reader_meta_boxes() {
 	add_meta_box( 'blc_reader_file', __( 'The Edition', 'bookloversclub' ), 'blc_reader_file_meta_box_html', 'library_book', 'normal', 'high' );
@@ -291,9 +433,12 @@ function blc_reader_file_meta_box_html( $post ) {
 	wp_nonce_field( 'blc_reader_meta', 'blc_reader_meta_nonce' );
 	$meta = blc_reader_meta( $post->ID );
 
+	$shelf = blc_reader_shelf_files();
+
 	$fields = array(
-		'blc_epub_id'      => array( __( 'EPUB attachment ID', 'bookloversclub' ), $meta['epub_id'] ? $meta['epub_id'] : '', __( 'Upload the .epub under Media, then paste its attachment ID here. Takes precedence over the URL below.', 'bookloversclub' ) ),
-		'blc_epub_url'     => array( __( 'EPUB URL', 'bookloversclub' ), $meta['epub_url'], __( 'Only used when there is no attachment ID. Must be same-origin — a cross-origin file needs CORS headers the reader cannot add.', 'bookloversclub' ) ),
+		'blc_epub_file'    => array( __( 'Shelf file', 'bookloversclub' ), (string) get_post_meta( $post->ID, '_blc_epub_file', true ), sprintf( /* translators: %s: shelf URL */ __( 'Filename of the EPUB in %s. Leave every file field blank and save, and a file on the shelf whose name ends in this book\'s slug is picked up automatically.', 'bookloversclub' ), blc_reader_shelf_url() ) ),
+		'blc_epub_id'      => array( __( 'EPUB attachment ID', 'bookloversclub' ), $meta['epub_id'] ? $meta['epub_id'] : '', __( 'For files kept in the media library instead. Takes precedence over the shelf.', 'bookloversclub' ) ),
+		'blc_epub_url'     => array( __( 'EPUB URL', 'bookloversclub' ), 'url' === $meta['epub_from'] ? $meta['epub_url'] : '', __( 'A last resort, used only when the two above are empty. Must be same-origin — a cross-origin file needs CORS headers the reader cannot add.', 'bookloversclub' ) ),
 		'blc_book_author'  => array( __( 'Author', 'bookloversclub' ), $meta['author'], '' ),
 		'blc_translator'   => array( __( 'Translator', 'bookloversclub' ), $meta['translator'], __( 'Leave blank unless the edition is translated. A translation has its own copyright — only a public-domain one belongs here.', 'bookloversclub' ) ),
 		'blc_year_published' => array( __( 'First published', 'bookloversclub' ), $meta['year'], '' ),
@@ -313,7 +458,8 @@ function blc_reader_file_meta_box_html( $post ) {
 				</th>
 				<td>
 					<input type="text" id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>"
-						class="widefat" value="<?php echo esc_attr( $field[1] ); ?>">
+						class="widefat" value="<?php echo esc_attr( $field[1] ); ?>"
+						<?php echo ( 'blc_epub_file' === $name && $shelf ) ? 'list="blc_shelf_files"' : ''; ?>>
 					<?php if ( $field[2] ) : ?>
 						<p class="description"><?php echo esc_html( $field[2] ); ?></p>
 					<?php endif; ?>
@@ -321,20 +467,52 @@ function blc_reader_file_meta_box_html( $post ) {
 			</tr>
 		<?php endforeach; ?>
 	</table>
+
+	<?php if ( $shelf ) : ?>
+		<datalist id="blc_shelf_files">
+			<?php foreach ( $shelf as $file ) : ?>
+				<option value="<?php echo esc_attr( $file ); ?>"></option>
+			<?php endforeach; ?>
+		</datalist>
+	<?php endif; ?>
+
 	<?php
+	$origins = array(
+		'media' => __( 'media library', 'bookloversclub' ),
+		'shelf' => __( 'the shelf', 'bookloversclub' ),
+		'url'   => __( 'a URL', 'bookloversclub' ),
+	);
+
 	if ( $meta['epub_url'] ) {
 		printf(
-			'<p><strong>%s</strong> <a href="%s" rel="nofollow">%s</a> %s</p>',
-			esc_html__( 'Current file:', 'bookloversclub' ),
+			'<p><strong>%s</strong> <a href="%s" rel="nofollow">%s</a> %s %s</p>',
+			esc_html__( 'Serving:', 'bookloversclub' ),
 			esc_url( $meta['epub_url'] ),
-			esc_html( basename( wp_parse_url( $meta['epub_url'], PHP_URL_PATH ) ) ),
-			esc_html( $meta['epub_size'] ? '(' . blc_reader_filesize( $meta['epub_size'] ) . ')' : '' )
+			esc_html( rawurldecode( basename( wp_parse_url( $meta['epub_url'], PHP_URL_PATH ) ) ) ),
+			esc_html( $meta['epub_size'] ? '(' . blc_reader_filesize( $meta['epub_size'] ) . ')' : '' ),
+			esc_html( isset( $origins[ $meta['epub_from'] ] ) ? '— ' . $origins[ $meta['epub_from'] ] : '' )
 		);
 	} else {
 		printf(
 			'<p style="color:#b32d2e;"><strong>%s</strong></p>',
 			esc_html__( 'No EPUB attached — this book will not appear in the Reading Room or link from its fan page.', 'bookloversclub' )
 		);
+		if ( $shelf ) {
+			$listed = array_map( function ( $file ) {
+				return '<code>' . esc_html( $file ) . '</code>';
+			}, array_slice( $shelf, 0, 12 ) );
+
+			printf(
+				'<p class="description">%s %s</p>',
+				esc_html( sprintf( /* translators: %d: number of files */ _n( '%d file on the shelf:', '%d files on the shelf:', count( $shelf ), 'bookloversclub' ), count( $shelf ) ) ),
+				implode( ', ', $listed )
+			);
+		} else {
+			printf(
+				'<p class="description">%s</p>',
+				esc_html( sprintf( /* translators: %s: shelf path */ __( 'The shelf at %s is empty or unreadable from here.', 'bookloversclub' ), blc_reader_shelf_path() ) )
+			);
+		}
 	}
 }
 
@@ -399,6 +577,38 @@ function blc_reader_save_meta( $post_id ) {
 	if ( isset( $_POST['blc_epub_id'] ) ) {
 		update_post_meta( $post_id, '_blc_epub_id', absint( wp_unslash( $_POST['blc_epub_id'] ) ) );
 	}
+	if ( isset( $_POST['blc_epub_file'] ) ) {
+		// Anything that isn't a plain .epub filename is stored as nothing,
+		// rather than kept and quietly failing to load later.
+		update_post_meta( $post_id, '_blc_epub_file', blc_reader_sanitize_shelf_file( $_POST['blc_epub_file'] ) );
+	}
+
+	blc_reader_adopt_shelf_file( $post_id );
+}
+
+/**
+ * Adopt a shelf file named after this book, when no file was named by hand.
+ *
+ * Drop `mary-shelley_frankenstein.epub` on the shelf, publish a library book
+ * with the slug `frankenstein`, and the two find each other. Only ever fills an
+ * empty field — an editor's explicit choice is never overwritten.
+ *
+ * @param int $post_id Library book ID.
+ * @return string The filename adopted, or '' when nothing changed.
+ */
+function blc_reader_adopt_shelf_file( $post_id ) {
+	$meta = blc_reader_meta( $post_id );
+	if ( $meta['epub_url'] ) {
+		return '';
+	}
+
+	$found = blc_reader_shelf_file_for_slug( get_post_field( 'post_name', $post_id ) );
+	if ( ! $found ) {
+		return '';
+	}
+
+	update_post_meta( $post_id, '_blc_epub_file', $found );
+	return $found;
 }
 add_action( 'save_post_library_book', 'blc_reader_save_meta' );
 
@@ -444,7 +654,7 @@ function blc_reader_admin_column( $column, $post_id ) {
 add_action( 'manage_library_book_posts_custom_column', 'blc_reader_admin_column', 10, 2 );
 
 /* -------------------------------------------------------------------------
- * 5. The Reading Room index
+ * 6. The Reading Room index
  * ---------------------------------------------------------------------- */
 
 /**
@@ -470,6 +680,11 @@ function blc_reader_archive_query( $query ) {
 			'type'    => 'NUMERIC',
 		),
 		array(
+			'key'     => '_blc_epub_file',
+			'value'   => '',
+			'compare' => '!=',
+		),
+		array(
 			'key'     => '_blc_epub_url',
 			'value'   => '',
 			'compare' => '!=',
@@ -479,7 +694,7 @@ function blc_reader_archive_query( $query ) {
 add_action( 'pre_get_posts', 'blc_reader_archive_query' );
 
 /* -------------------------------------------------------------------------
- * 6. Assets
+ * 7. Assets
  * ---------------------------------------------------------------------- */
 function blc_reader_assets() {
 	$is_reader  = is_singular( 'library_book' );
