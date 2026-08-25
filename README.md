@@ -5,6 +5,7 @@ that make a page worth reading, a reusable research prompt, a structured output
 format, and the sourcing rules that keep reader quotes trustworthy.
 
 ```
+INTERN_GUIDE.md         step-by-step, for whoever is doing the work
 .claude/commands/
   research-book.md      /research-book <slug> — the whole pipeline, one command
 research/
@@ -22,6 +23,7 @@ data/
   books.json            the 50 books queued for pages
   pages/<slug>.json     research output, one file per book
   library.json          the public-domain shelf, with the rights basis for each
+  quote-removals.md     quotes pulled from pages, so a re-research can't undo it
 wordpress/
   README.md             install + publishing guide
   theme-files/          drop-in templates for the BookLoversClub theme
@@ -29,6 +31,10 @@ wordpress/
 ```
 
 ## The workflow
+
+**Handing this to someone new?** `INTERN_GUIDE.md` walks through both jobs —
+publishing a fan page and stocking the Reading Room — start to finish, assuming
+no prior knowledge of WordPress, JSON, or this repo.
 
 From a Claude Code session:
 
